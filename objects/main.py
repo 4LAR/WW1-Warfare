@@ -43,5 +43,5 @@ def hide_cursor():
     window.set_mouse_visible(False)
 
 def main():
-    clear_display()
-    add_display(text_label(settings.width//2, settings.height//2, 'HELLO WORLD', load_font=True, font='pixel.ttf', size=settings.height//20, anchor_x='center', color = (180, 180, 180, 255)))
+    menu()
+    #play()

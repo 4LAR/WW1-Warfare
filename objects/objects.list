@@ -1,5 +1,6 @@
 lib.py
-# test console
 libs/console.py
+game/objects.list
+menu/objects.list
 main.py
 logo.py

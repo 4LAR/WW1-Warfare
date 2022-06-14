@@ -13,11 +13,16 @@ class world():
         self.collide_mouse = settings.width/10
 
         # загружаем картинку
+        self.image_width = 250
         self.image = image_label('world/background.png', self.move_x + self.fov/2, -self.fov/2, scale=settings.height/240)
+        self.pixel_size = self.image.sprite.width / self.image_width
 
         # константы
         self.move_min = -self.image.sprite.width + settings.width + self.fov * 2
         self.move_max = -self.fov/2
+
+    def pos_with_world(self, x):
+        return self.pixel_size * x
 
     # для паралакса
     def on_mouse_motion(self, x, y, dx, dy):

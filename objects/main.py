@@ -43,5 +43,6 @@ def hide_cursor():
     window.set_mouse_visible(False)
 
 def main():
+    window.set_icon(pyglet.image.load('assets/img/logo_game.png'))
     menu()
     #play()

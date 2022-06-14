@@ -1,4 +1,6 @@
 world.py
 trenches.py
+vegetation.py
+clouds.py
 gui.py
 game.py

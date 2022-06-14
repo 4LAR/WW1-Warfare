@@ -2,6 +2,8 @@
 def play():
     clear_display()
     add_display(world())
+    #add_display(clouds())
+    add_display(vegetation())
     add_display(trenches())
     add_display(gui())
 

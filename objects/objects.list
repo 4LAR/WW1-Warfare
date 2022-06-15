@@ -1,5 +1,6 @@
 lib.py
 setings_game.py
+settings.py
 libs/console.py
 game/objects.list
 menu/objects.list

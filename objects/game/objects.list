@@ -1,6 +1,9 @@
 world.py
-trenches.py
 vegetation.py
 clouds.py
+fog.py
+trenches.py
+dot.py
+flags.py
 gui.py
 game.py

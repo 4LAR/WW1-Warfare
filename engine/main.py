@@ -276,6 +276,7 @@ else:
     console_term.print('Bad source argument', 3)
 
 CODE = fuck_import.get_code()
+console_term.print('Count lines: ' + str(len(CODE.split('\n'))), 1)
 
 if (game_args.args.pack and CODE):
     print(game_args.args.pack)

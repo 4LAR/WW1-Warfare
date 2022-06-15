@@ -175,7 +175,7 @@ class text_cursor():
         self.length = length
 
         self.cursor_text_size = settings.height//50
-        self.cursor_text = text_label(settings.width//6, settings.height - settings.height//15, 'text', load_font=True, font='pixel.ttf', size=self.cursor_text_size, anchor_x='left', color = (180, 180, 180, 255))
+        self.cursor_text = text_label(settings.width//6, settings.height - settings.height//15, 'text', load_font=True, font='urod.ttf', size=self.cursor_text_size, anchor_x='left', color = (180, 180, 180, 255))
         self.cursor_text.label.text = text
 
     def draw(self, x=0, y=0):
@@ -465,7 +465,7 @@ class input_label_image():
         self.text_obj = input_label(
             x + text_indent + self.text_button.label.content_width + text_input_indent, y + self.image_obj.sprite.height/35,
             self.image_obj.sprite.width - (text_indent + self.text_button.label.content_width + text_input_indent), self.image_obj.sprite.height,
-            size=int(self.scale * 5.5), font='pixel.ttf', text=pre_text, color_text=color_text,
+            size=int(self.scale * 5.5), font='urod.ttf', text=pre_text, color_text=color_text,
             color_background=(0, 0, 0, 0), color_background_selected=(0, 0, 0, 0)
         )
 
@@ -642,7 +642,7 @@ class input_label():
         self.text_label.draw()
 
 class text_label(): # класс для прорисовки текста
-    def __init__(self, x, y, text, size=18, color=(255, 255, 255, 255), anchor_x='left', anchor_y='center', load_font=False, font='pixel.ttf', shadow=False, color_shadow=(255, 255, 255, 255), shadow_size=20, type_shadow=0, rotation=0, multiline=False, use=True):
+    def __init__(self, x, y, text, size=18, color=(255, 255, 255, 255), anchor_x='left', anchor_y='center', load_font=False, font='urod.ttf', shadow=False, color_shadow=(255, 255, 255, 255), shadow_size=20, type_shadow=0, rotation=0, multiline=False, use=True):
         self.use = use
 
         if load_font: # использовать ли свой шрифт
@@ -1012,7 +1012,7 @@ class image_flag():
 
 
 class image_button():
-    def __init__(self, x, y, image, scale=1, rotation=0, alpha=255, center=False, function=None, arg=None, image_selected=None, poligon=False, text=None, text_color=(180, 180, 180, 255), font='pixel.ttf', text_indent=0, shadow=False, color_shadow=(0, 0, 0, 128), draw_info=False, alight_info='rt', text_info='', use=True, text_scale=5.5, text_size_y=1.6):
+    def __init__(self, x, y, image, scale=1, rotation=0, alpha=255, center=False, function=None, arg=None, image_selected=None, poligon=False, text=None, text_color=(180, 180, 180, 255), font='urod.ttf', text_indent=0, shadow=False, color_shadow=(0, 0, 0, 128), draw_info=False, alight_info='rt', text_info='', use=True, text_scale=5.5, text_size_y=1.6):
         self.use = use
 
         self.draw_info = draw_info

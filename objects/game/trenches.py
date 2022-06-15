@@ -1,11 +1,12 @@
 class trenches():
     def __init__(self):
         self.pos = []
-        self.pos.append(10)
+        
+        #self.pos.append(10)
         self.pos.append(70)
         self.pos.append(120)
 
-        self.image = image_label('world/trenches/trenches_left.png', 0 , 0, scale=settings.height/240)
+        self.image = image_label('world/trenches/trenches_left.png', 0 , 0, scale=SCALE_WORLD)
 
     def draw(self):
         for pos in self.pos:

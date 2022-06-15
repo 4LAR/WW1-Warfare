@@ -2,7 +2,7 @@
 # text color
 # HEX: #B6B3A6
 # RGB: (182, 179, 166)
-# font: pixel.ttf
+# font: urod.ttf
 
 class menu_class():
     def __init__(self):
@@ -16,6 +16,7 @@ class menu_class():
 
         self.menu_elements.append([])
         menu_buttons_distance = settings.height/6.5
+        font_scale = 10;
         self.menu_elements[0].append(
             image_button(
                 settings.width/1.3, settings.height - settings.height/1.8,
@@ -25,9 +26,9 @@ class menu_class():
                 text='campaign',
                 function=play,
                 text_color=(182, 179, 166, 255),
-                text_indent=settings.width/35,
-                text_scale=6,
-                text_size_y=1.9
+                text_indent=settings.width/40,
+                text_scale=font_scale,
+                text_size_y=1.3
             )
         )
 
@@ -40,8 +41,8 @@ class menu_class():
                 text='sandbox',
                 text_color=(182, 179, 166, 255),
                 text_indent=settings.width/35,
-                text_scale=6,
-                text_size_y=1.9
+                text_scale=font_scale,
+                text_size_y=1.3
             )
         )
 
@@ -54,8 +55,8 @@ class menu_class():
                 text='settings',
                 text_color=(182, 179, 166, 255),
                 text_indent=settings.width/35,
-                text_scale=6,
-                text_size_y=1.9
+                text_scale=font_scale,
+                text_size_y=1.3
             )
         )
 
@@ -75,5 +76,6 @@ class menu_class():
             drawp(element)
 
 def menu():
-    add_display(world(menu=True))
+    clear_display()
+    add_game_classes(True)
     add_display(menu_class())

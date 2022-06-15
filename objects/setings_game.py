@@ -6,11 +6,9 @@
 
 class setings_game(): # класс который содержит себе информацию о разрешениях и считывает нажатия определённых кнопок
     def __init__(self):
-        self.draw_poligons = False # разрешение на прорисовку полигонов
-        self.draw_info_text = False # разрешение на прорисовку информации о игроке
         self.draw_console = False # разрешение на прорисовку и использование консоли
 
-        self.draw_rain = False # разрешение на прорисовку дождя
+        self.draw_gui = True
 
         self.pause = False
 
@@ -32,14 +30,12 @@ class setings_game(): # класс который содержит себе ин
                     engine_settings.on_mouse_press_bool    = False
                     engine_settings.on_mouse_release_bool  = False
 
-            if symbol == key.F5:
-                if self.pause:
-                    self.pause = False
-                    engine_settings.on_update_bool = True
+            if symbol == key.F2:
+                self.draw_gui = not self.draw_gui
 
-                else:
-                    self.pause = True
-                    engine_settings.on_update_bool = False
+            if symbol == key.F5:
+                self.pause = not self.pause
+                engine_settings.on_update_bool = not self.pause
 
 
 # добавляем классы в основной цикл

@@ -6,4 +6,4 @@ class parties_flag():
         pass
 
     def draw(self):
-        pass
+        drawp(self.flagpole)

@@ -14,7 +14,9 @@ class world():
 
         # загружаем картинку
         self.image_width = 250
-        self.image = image_label('world/background.png', self.move_x + self.fov/2, -self.fov/2, scale=settings.height/240)
+        self.image = image_label('world/background_ground.png', self.move_x + self.fov/2, -self.fov/2, scale=settings.height/240)
+        self.image_sky = image_label('world/background_sky.png', self.move_x + self.fov/2, -self.fov/2, scale=settings.height/240)
+
         self.pixel_size = self.image.sprite.width / self.image_width
 
         # константы
@@ -55,5 +57,10 @@ class world():
         self.image.sprite.x = self.move_x + self.map_offs[0] - self.fov
         self.image.sprite.y = self.map_offs[1] - self.fov/2
 
+        self.image_sky.sprite.x = self.move_x + (self.map_offs[0]*0.8) - self.fov
+        self.image_sky.sprite.y = (self.map_offs[1]*0.8) - self.fov/2
+
+
     def draw(self):
+        drawp(self.image_sky)
         drawp(self.image)

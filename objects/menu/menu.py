@@ -8,7 +8,7 @@ class menu_class():
     def __init__(self):
 
         # загружаем картинку
-        self.image_logo = image_label('logo_game.png', settings.width/1.5, settings.height - settings.height/3, scale=settings.height/150)
+        self.image_logo = image_label('logo_game.png', settings.width/1.28, settings.height - settings.height/3, scale=settings.height/150)
 
         # кнопки главного меню
         self.menu_selected = 0
@@ -18,7 +18,7 @@ class menu_class():
         menu_buttons_distance = settings.height/6.5
         self.menu_elements[0].append(
             image_button(
-                settings.width/20, settings.height - settings.height/3,
+                settings.width/1.3, settings.height - settings.height/1.8,
                 image = 'buttons/big/button.png',
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
@@ -33,7 +33,7 @@ class menu_class():
 
         self.menu_elements[0].append(
             image_button(
-                settings.width/20, settings.height - settings.height/3 - menu_buttons_distance,
+                settings.width/1.3, settings.height - settings.height/1.8 - menu_buttons_distance,
                 image = 'buttons/big/button.png',
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
@@ -47,7 +47,7 @@ class menu_class():
 
         self.menu_elements[0].append(
             image_button(
-                settings.width/20, settings.height - settings.height/3 - (menu_buttons_distance)*2,
+                settings.width/1.3, settings.height - settings.height/1.8 - (menu_buttons_distance)*2,
                 image = 'buttons/big/button.png',
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,

@@ -33,6 +33,13 @@ class Console(): # класс игровой консоли
             else:
                 settings.show_fps = True
 
+        elif command == 'maplist':
+            for map in os.listdir('maps'):
+                console_term.print(map)
+
+        elif command.split(' ')[0] == 'play':
+            play(command.split(' ')[1])
+
         else:
             exec(command + '()')
 
@@ -42,7 +49,7 @@ class Console(): # класс игровой консоли
                 self.command = self.command[:len(self.command)-1]
             elif symbol == key.ENTER:
                 if len(self.command) > 0:
-                    console_term.print(self.command) # выводим комманду
+                    console_term.print(' >> ' + self.command) # выводим комманду
                     command = self.command
                     self.command = ''
                     self.execute_command(command) # выполняем комманду

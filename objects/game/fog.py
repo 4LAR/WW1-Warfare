@@ -1,10 +1,10 @@
 class fog():
     def __init__(self):
 
-        self.image = image_label('world/fog.png', 0, 0, scale=SCALE_WORLD, alpha=15)
+        self.image = image_label('world/world/fog.png', 0, 0, scale=SCALE_WORLD, alpha=15)
         self.image_width = 250
 
-        self.move_max = self.image_width - 0.1
+        self.move_max = self.image_width - 0.01
         self.move_x = [0, self.move_max]
 
         self.move_tick = 0.1

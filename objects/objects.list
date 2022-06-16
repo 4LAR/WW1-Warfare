@@ -3,6 +3,7 @@ setings_game.py
 settings.py
 libs/console.py
 game/objects.list
+units/objects.list
 menu/objects.list
 main.py
 logo.py

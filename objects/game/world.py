@@ -12,12 +12,15 @@ class world():
 
         self.collide_mouse = settings.width/10
 
+        # autum, summer
+        self.season = get_obj_display('world_save').dict['world']['season']
+
         # загружаем картинку
         self.image_width = 250
-        self.image = image_label('world/background_ground.png', self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
-        self.image_ground = image_label('world/background_ground_1.png', self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
-        self.image_forest = image_label('world/background_forest.png', self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
-        self.image_sky = image_label('world/background_sky.png', self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
+        self.image = image_label('world/world/%s/background_ground.png' % self.season, self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
+        self.image_ground = image_label('world/world/%s/background_ground_deco.png' % self.season, self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
+        self.image_forest = image_label('world/world/%s/background_forest.png' % self.season, self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
+        self.image_sky = image_label('world/world/background_sky.png', self.move_x + self.fov/2, -self.fov/2, scale=SCALE_WORLD)
 
         self.pixel_size = self.image.sprite.width / self.image_width
 
@@ -44,6 +47,11 @@ class world():
     def move_right(self):
         if (self.move_min < self.move_x - self.move_tick):
             self.move_x -= self.move_tick
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == pyglet.window.key.ESCAPE:
+            menu()
+            return pyglet.event.EVENT_HANDLED
 
     def update(self):
         if sattings_game.parallax:

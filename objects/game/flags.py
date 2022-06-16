@@ -10,14 +10,19 @@ class parties_flag():
         self.delay = 0.2
         self.time = time.perf_counter() + self.delay
 
-        country = ['rus']
+        country = ['rus', 'britain', 'france', 'germany']
         for i in range(len(country)):
             self.flags.append([])
             for j in range(5):
                 self.flags[i].append(image_label('world/flag/%s/%d.png' % (country[i], j + 1), 0, 0, scale=SCALE_WORLD))
 
-        # country, arentation, position, animation tick
-        self.flag_list.append([0, 20, 0, 0])
+        #self.flag_list.append([country, arentation, position, animation tick])
+        self.load()
+
+    def load(self):
+        self.flag_list = []
+        for el in get_obj_display('world_save').dict['world']['parties_flag']:
+            self.flag_list.append(el)
 
     def update(self):
         if self.time <= time.perf_counter():

@@ -16,7 +16,7 @@ class menu_class():
 
         self.menu_elements.append([])
         menu_buttons_distance = settings.height/6.5
-        font_scale = 10;
+
         self.menu_elements[0].append(
             image_button(
                 settings.width/1.3, settings.height - settings.height/1.8,
@@ -25,9 +25,9 @@ class menu_class():
                 scale = settings.height/150,
                 text='campaign',
                 function=play,
-                text_color=(182, 179, 166, 255),
+                text_color=BUTTONS_FONT_COLOR,
                 text_indent=settings.width/40,
-                text_scale=font_scale,
+                text_scale=BUTTONS_FONT_SCALE,
                 text_size_y=1.3
             )
         )
@@ -39,9 +39,9 @@ class menu_class():
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
                 text='sandbox',
-                text_color=(182, 179, 166, 255),
+                text_color=BUTTONS_FONT_COLOR,
                 text_indent=settings.width/35,
-                text_scale=font_scale,
+                text_scale=BUTTONS_FONT_SCALE,
                 text_size_y=1.3
             )
         )
@@ -53,9 +53,9 @@ class menu_class():
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
                 text='settings',
-                text_color=(182, 179, 166, 255),
+                text_color=BUTTONS_FONT_COLOR,
                 text_indent=settings.width/35,
-                text_scale=font_scale,
+                text_scale=BUTTONS_FONT_SCALE,
                 text_size_y=1.3
             )
         )
@@ -73,9 +73,17 @@ class menu_class():
             drawp(self.image_logo)
 
         for element in self.menu_elements[self.menu_selected]:
-            drawp(element)
+            element.draw()
+
+FIRST_RUN = True
 
 def menu():
+    show_cursor()
+    global FIRST_RUN
+
     clear_display()
     add_game_classes(True)
     add_display(menu_class())
+    if FIRST_RUN:
+        FIRST_RUN = not FIRST_RUN
+        add_display(breathing_label(0, 0, settings.width, settings.height, (0, 0, 0), 0, delay=0.01, for_from=255, for_before=0, tick=-5))

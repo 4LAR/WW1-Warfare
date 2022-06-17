@@ -1,6 +1,9 @@
 
 SCALE_WORLD = settings.height/240
 
+BUTTONS_FONT_SCALE = 10;
+BUTTONS_FONT_COLOR = (182, 179, 166, 255)
+
 SHADOWS_DEG = -120
 SHADOWS_COLOR = (0, 0, 0, 80)
 
@@ -23,6 +26,7 @@ def image_transform_for_shadow(image_name, shadows_color, pil_image = False):
     return img
 
 def add_game_classes(menu=False, map_name='test_summer'):
+    add_display(game_rule())
     add_display(world_save(map_name))
     add_display(world(menu=menu))
     add_display(vegetation())
@@ -35,6 +39,7 @@ def add_game_classes(menu=False, map_name='test_summer'):
     add_display(vegetation_down())
     add_display(fog())
     add_display(gui())
+    add_display(pause_gui())
 
 def play(map_name='test_summer'):
     clear_display()

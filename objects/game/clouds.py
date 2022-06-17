@@ -10,10 +10,11 @@ class clouds():
         self.move_tick = 0.01
 
     def update(self):
-        for i in range(len(self.move_x)):
-            self.move_x[i] -= self.move_tick
-            if self.move_x[i] < -self.move_max:
-                self.move_x[i] = self.move_max
+        if not get_obj_display('game_rule').pause:
+            for i in range(len(self.move_x)):
+                self.move_x[i] -= self.move_tick
+                if self.move_x[i] < -self.move_max:
+                    self.move_x[i] = self.move_max
 
     def draw(self):
         for move in self.move_x:

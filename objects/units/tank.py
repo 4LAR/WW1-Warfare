@@ -50,13 +50,14 @@ class tank():
         self.state = 0
 
     def update(self):
-        if not self.stop:
-            self.pos_x += self.speed
+        if not get_obj_display('game_rule').pause:
+            if not self.stop:
+                self.pos_x += self.speed
 
-            if (
-                ((self.pos_x > get_obj_display('world').image.sprite.width - (self.images[0].width * 2)) and self.flip == 0) or
-                (self.pos_x < (self.images[0].width)) and self.flip == 1):
-                self.stop = True
+                if (
+                    ((self.pos_x > get_obj_display('world').image.sprite.width - (self.images[0].width * 2)) and self.flip == 0) or
+                    (self.pos_x < (self.images[0].width)) and self.flip == 1):
+                    self.stop = True
 
     def draw(self, x, y):
         self.images[self.state].x = self.pos_x + x

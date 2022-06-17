@@ -6,5 +6,7 @@ trenches.py
 dot.py
 flags.py
 gui.py
+pause.py
 world_save.py
+game_rule.py
 game.py

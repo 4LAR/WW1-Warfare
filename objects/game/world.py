@@ -11,6 +11,7 @@ class world():
         self.fov = 32
 
         self.collide_mouse = settings.width/10
+        self.collide_mouse_y = [settings.height/6, settings.height - settings.height/6]
 
         # autum, summer
         self.season = get_obj_display('world_save').dict['world']['season']
@@ -61,10 +62,10 @@ class world():
             self.map_offs[0] = 0
             self.map_offs[1] = 0
 
-        if not self.menu:
-            if keyboard[key.A] or (self.disp_pos[0] < self.collide_mouse):
+        if not self.menu and not get_obj_display('game_rule').pause_settings:
+            if keyboard[key.A] or ((self.disp_pos[0] < self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):
                 self.move_left()
-            elif keyboard[key.D] or (self.disp_pos[0] > settings.width - self.collide_mouse):
+            elif keyboard[key.D] or ((self.disp_pos[0] > settings.width - self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):
                 self.move_right()
 
         # изменение аоложения картинки на экране

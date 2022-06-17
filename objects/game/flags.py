@@ -19,6 +19,7 @@ class parties_flag():
             for j in range(5):
                 self.flags[i].append(image_label('world/flag/%s/%d.png' % (country[i], j + 1), 0, 0, scale=SCALE_WORLD))
                 self.flags_shadows[i].append(PIL_to_pyglet(image_transform_for_shadow('assets/img/world/flag/%s/%d.png' % (country[i], j + 1), SHADOWS_COLOR), SCALE_WORLD))
+
         #self.flag_list.append([country, arentation, position, animation tick])
         self.load()
 
@@ -28,13 +29,14 @@ class parties_flag():
             self.flag_list.append(el)
 
     def update(self):
-        if self.time <= time.perf_counter():
-            for i in range(len(self.flag_list)):
-                self.flag_list[i][3] += 1
-                if self.flag_list[i][3] > self.max_anim_tick:
-                    self.flag_list[i][3] = 0
+        if not get_obj_display('game_rule').pause:
+            if self.time <= time.perf_counter():
+                for i in range(len(self.flag_list)):
+                    self.flag_list[i][3] += 1
+                    if self.flag_list[i][3] > self.max_anim_tick:
+                        self.flag_list[i][3] = 0
 
-            self.time = time.perf_counter() + self.delay
+                self.time = time.perf_counter() + self.delay
 
     def draw(self):
         for flag in self.flag_list:

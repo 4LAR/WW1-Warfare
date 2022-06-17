@@ -14,12 +14,13 @@ class menu_class():
         self.menu_selected = 0
         self.menu_elements = []
 
-        self.menu_elements.append([])
         menu_buttons_distance = settings.height/6.5
 
+#-------------------------------MAIN-MENU---------------------------------------
+        self.menu_elements.append([])
         self.menu_elements[0].append(
             image_button(
-                settings.width/1.3, settings.height - settings.height/1.8,
+                settings.width/1.3, settings.height - settings.height/2,
                 image = 'buttons/big/button.png',
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
@@ -34,7 +35,7 @@ class menu_class():
 
         self.menu_elements[0].append(
             image_button(
-                settings.width/1.3, settings.height - settings.height/1.8 - menu_buttons_distance,
+                settings.width/1.3, settings.height - settings.height/2 - menu_buttons_distance,
                 image = 'buttons/big/button.png',
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
@@ -48,17 +49,69 @@ class menu_class():
 
         self.menu_elements[0].append(
             image_button(
-                settings.width/1.3, settings.height - settings.height/1.8 - (menu_buttons_distance)*2,
+                settings.width/1.3, settings.height - settings.height/2 - (menu_buttons_distance)*2,
                 image = 'buttons/big/button.png',
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
                 text='settings',
+                arg='get_obj_display(\'menu_class\').open_menu(1)',
                 text_color=BUTTONS_FONT_COLOR,
                 text_indent=settings.width/35,
                 text_scale=BUTTONS_FONT_SCALE,
                 text_size_y=1.3
             )
         )
+
+        self.menu_elements[0].append(
+            image_button(
+                settings.width/1.3, settings.height - settings.height/2 - (menu_buttons_distance)*3,
+                image = 'buttons/big/button.png',
+                image_selected = 'buttons/big/button_active.png',
+                scale = settings.height/150,
+                text='exit',
+                arg='exit()',
+                text_color=BUTTONS_FONT_COLOR,
+                text_indent=settings.width/35,
+                text_scale=BUTTONS_FONT_SCALE,
+                text_size_y=1.3
+            )
+        )
+
+        self.menu_elements[0].append(
+            image_button(
+                settings.width/40, settings.height - settings.height/1.8 - (menu_buttons_distance)*2.8,
+                image = 'buttons/small/button.png',
+                image_selected = 'buttons/small/button_active.png',
+                scale = settings.height/150,
+                text='',
+                arg='',
+                text_color=BUTTONS_FONT_COLOR,
+                text_indent=settings.width/35,
+                text_scale=BUTTONS_FONT_SCALE,
+                text_size_y=1.3
+            )
+        )
+
+#---------------------------SETTINGS-MENU---------------------------------------
+
+        self.menu_elements.append([])
+        self.menu_elements[1].append(
+            image_button(
+                settings.width/1.3, settings.height - settings.height/2 - (menu_buttons_distance)*3,
+                image = 'buttons/big/button.png',
+                image_selected = 'buttons/big/button_active.png',
+                scale = settings.height/150,
+                text='back',
+                arg='get_obj_display(\'menu_class\').open_menu(0)',
+                text_color=BUTTONS_FONT_COLOR,
+                text_indent=settings.width/40,
+                text_scale=BUTTONS_FONT_SCALE,
+                text_size_y=1.3
+            )
+        )
+
+    def open_menu(self, id):
+        self.menu_selected = id
 
     def on_mouse_motion(self, x, y, dx, dy):
         for element in self.menu_elements[self.menu_selected]:

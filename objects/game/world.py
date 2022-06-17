@@ -51,7 +51,15 @@ class world():
 
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ESCAPE:
-            menu()
+            if not self.menu:
+                if get_obj_display('game_rule').pause_settings:
+                    get_obj_display('game_rule')._unpause_settings()
+                else:
+                    get_obj_display('game_rule')._pause_settings()
+
+            else:
+                exit()
+
             return pyglet.event.EVENT_HANDLED
 
     def update(self):

@@ -6,6 +6,8 @@ class parties_flag():
         self.flagpole_shadow = PIL_to_pyglet(image_transform_for_shadow('assets/img/world/flag/flagpole.png', SHADOWS_COLOR), SCALE_WORLD)
 
         self.flags = []
+        self.flags_shadows = []
+
         self.max_anim_tick = 4
         self.delay = 0.2
         self.time = time.perf_counter() + self.delay
@@ -13,9 +15,10 @@ class parties_flag():
         country = ['rus', 'britain', 'france', 'germany']
         for i in range(len(country)):
             self.flags.append([])
+            self.flags_shadows.append([])
             for j in range(5):
                 self.flags[i].append(image_label('world/flag/%s/%d.png' % (country[i], j + 1), 0, 0, scale=SCALE_WORLD))
-
+                self.flags_shadows[i].append(PIL_to_pyglet(image_transform_for_shadow('assets/img/world/flag/%s/%d.png' % (country[i], j + 1), SHADOWS_COLOR), SCALE_WORLD))
         #self.flag_list.append([country, arentation, position, animation tick])
         self.load()
 
@@ -38,14 +41,18 @@ class parties_flag():
             x = get_obj_display('world').pos_with_world(flag[1]) + get_obj_display('world').move_x + get_obj_display('world').map_offs[0]
             y = get_obj_display('world').map_offs[1] - get_obj_display('world').fov/2 + (settings.height/2.7)/2
 
-            self.flagpole.sprite.x = x
+            self.flagpole.sprite.x = x - self.flagpole.sprite.width/2.2
             self.flagpole.sprite.y = y
             drawp(self.flagpole)
 
-            self.flagpole_shadow.x = x
+            self.flagpole_shadow.x = x - self.flagpole.sprite.width/2.2
             self.flagpole_shadow.y = y - self.flagpole_shadow.height
             drawp(self.flagpole_shadow)
 
             self.flags[flag[0]][flag[3]].sprite.x = x + self.flags[flag[0]][flag[3]].sprite.width/9
-            self.flags[flag[0]][flag[3]].sprite.y = y + self.flagpole.sprite.height - (self.flags[flag[0]][flag[3]].sprite.height*1.1)
+            self.flags[flag[0]][flag[3]].sprite.y = y + (self.flagpole.sprite.height - (self.flags[flag[0]][flag[3]].sprite.height*1.1))
             drawp(self.flags[flag[0]][flag[3]])
+
+            self.flags_shadows[flag[0]][flag[3]].x = x + self.flags[flag[0]][flag[3]].sprite.width/9 - self.flagpole.sprite.width/2.2 + self.flagpole_shadow.width/1.8
+            self.flags_shadows[flag[0]][flag[3]].y = y - (self.flagpole.sprite.height - (self.flags[flag[0]][flag[3]].sprite.height*1.1))
+            drawp(self.flags_shadows[flag[0]][flag[3]])

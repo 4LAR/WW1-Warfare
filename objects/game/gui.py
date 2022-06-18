@@ -2,6 +2,7 @@ class gui():
     def __init__(self):
 
         buttons_distance = settings.width/16
+        buttons_scale = (settings.height/150)/1.5
 
 #----------------------------TOP-HOTBAR-----------------------------------------
 
@@ -9,7 +10,7 @@ class gui():
             settings.width/100, settings.height - settings.height/9,
             image = 'buttons/gui/settings.png',
             image_selected = 'buttons/gui/settings_active.png',
-            scale = (settings.height/150)/1.5,
+            scale = buttons_scale,
 
             arg='get_obj_display(\'game_rule\')._pause_settings()'
         )
@@ -18,7 +19,7 @@ class gui():
             settings.width/100 + buttons_distance, settings.height - settings.height/9,
             image = 'buttons/gui/play_fast.png',
             image_selected = 'buttons/gui/play_fast_active.png',
-            scale = (settings.height/150)/1.5,
+            scale = buttons_scale,
 
             arg='get_obj_display(\'game_rule\')._play_fast()'
         )
@@ -27,7 +28,7 @@ class gui():
             settings.width/100 + (buttons_distance)*2, settings.height - settings.height/9,
             image = 'buttons/gui/play.png',
             image_selected = 'buttons/gui/play_active.png',
-            scale = (settings.height/150)/1.5,
+            scale = buttons_scale,
 
             arg='get_obj_display(\'game_rule\')._play()'
         )
@@ -36,7 +37,7 @@ class gui():
             settings.width/100 + (buttons_distance)*3, settings.height - settings.height/9,
             image = 'buttons/gui/pause.png',
             image_selected = 'buttons/gui/pause_active.png',
-            scale = (settings.height/150)/1.5,
+            scale = buttons_scale,
 
             arg='get_obj_display(\'game_rule\')._pause()'
         )
@@ -58,7 +59,36 @@ class gui():
 
 #-----------------------------DOWN-HOTBAR---------------------------------------
 
-        
+        self.units_buttons = []
+        self.units_buttons_load = []
+        self.units_buttons_time = []
+
+        for i in range(5):
+            self.units_buttons.append(
+                image_button(
+                    settings.width/3 + buttons_distance * i, settings.height/20,
+                    image = 'buttons/small/button.png',
+                    image_selected = 'buttons/small/button_active.png',
+                    scale = buttons_scale,
+                    text='',
+                    arg='',
+                    text_color=BUTTONS_FONT_COLOR,
+                    text_indent=settings.width/35,
+                    text_scale=BUTTONS_FONT_SCALE,
+                    text_size_y=1.3
+                )
+            )
+
+            self.units_buttons_load.append(
+                label(
+                    settings.width/3 + buttons_distance * i, settings.height/20,
+                    self.units_buttons[i].image_obj.sprite.width, (self.units_buttons[i].image_obj.sprite.height/(i+1)),
+                    (0, 0, 0), alpha=128
+                )
+            )
+
+            self.units_buttons_time.append([100, 0.5])
+
 
 #-------------------------------------------------------------------------------
 
@@ -68,6 +98,13 @@ class gui():
                 self.pause_anim_flag = not self.pause_anim_flag
 
                 self.pause_anim_time = time.perf_counter() + self.pause_anim_delay
+                
+        else:
+            for i in range(len(self.units_buttons_time)):
+                if self.units_buttons_time[i][0] > 0:
+                    self.units_buttons_time[i][0] -= self.units_buttons_time[i][1]
+
+                self.units_buttons_load[i].rec.height = (self.units_buttons[i].image_obj.sprite.height/100)*self.units_buttons_time[i][0]
 
     def on_mouse_motion(self, x, y, dx, dy):
         if get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu and not get_obj_display('game_rule').pause_settings:
@@ -89,6 +126,11 @@ class gui():
             drawp(self.play_fast_button)
             drawp(self.play_button)
             drawp(self.pause_button)
+
+            for button in self.units_buttons:
+                button.draw()
+            for button in self.units_buttons_load:
+                button.draw()
 
             if get_obj_display('game_rule').pause and self.pause_anim_flag and not get_obj_display('game_rule').pause_settings:
                 self.pause_text.draw()

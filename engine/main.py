@@ -63,6 +63,9 @@ import hashlib
 # изменение цвета символов в консоли
 import termcolor
 
+# для открытия ссылок
+import webbrowser
+
 # импортирование своих библиотек
 from get_time import *
 from console import *

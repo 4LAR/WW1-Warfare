@@ -4,6 +4,8 @@
 # RGB: (182, 179, 166)
 # font: urod.ttf
 
+GIT_URL = 'https://github.com/4LAR/WW1-Warfare'
+
 class menu_class():
     def __init__(self):
 
@@ -17,6 +19,7 @@ class menu_class():
         menu_buttons_distance = settings.height/6.5
 
 #-------------------------------MAIN-MENU---------------------------------------
+
         self.menu_elements.append([])
         self.menu_elements[0].append(
             image_button(
@@ -25,7 +28,8 @@ class menu_class():
                 image_selected = 'buttons/big/button_active.png',
                 scale = settings.height/150,
                 text='campaign',
-                function=play,
+                #function=play,
+                arg='get_obj_display(\'select_map\').show = True',
                 text_color=BUTTONS_FONT_COLOR,
                 text_indent=settings.width/40,
                 text_scale=BUTTONS_FONT_SCALE,
@@ -84,12 +88,16 @@ class menu_class():
                 image_selected = 'buttons/small/button_active.png',
                 scale = settings.height/150,
                 text='',
-                arg='',
+                arg='webbrowser.open_new(\'%s\')' % GIT_URL,
                 text_color=BUTTONS_FONT_COLOR,
                 text_indent=settings.width/35,
                 text_scale=BUTTONS_FONT_SCALE,
                 text_size_y=1.3
             )
+        )
+
+        self.menu_elements[0].append(
+            image_label('ico/github.png', settings.width/40, settings.height - settings.height/1.8 - (menu_buttons_distance)*2.8, scale=settings.height/150)
         )
 
 #---------------------------SETTINGS-MENU---------------------------------------
@@ -110,16 +118,26 @@ class menu_class():
             )
         )
 
+#-------------------------------------------------------------------------------
+
     def open_menu(self, id):
         self.menu_selected = id
 
     def on_mouse_motion(self, x, y, dx, dy):
-        for element in self.menu_elements[self.menu_selected]:
-            element.on_mouse_motion(x, y, dx, dy)
+        if not get_obj_display('select_map').show:
+            for element in self.menu_elements[self.menu_selected]:
+                try:
+                    element.on_mouse_motion(x, y, dx, dy)
+                except:
+                    pass
 
     def on_mouse_press(self, x, y, dx, dy):
-        for element in self.menu_elements[self.menu_selected]:
-            element.on_mouse_press(x, y, dx, dy)
+        if not get_obj_display('select_map').show:
+            for element in self.menu_elements[self.menu_selected]:
+                try:
+                    element.on_mouse_press(x, y, dx, dy)
+                except:
+                    pass
 
     def draw(self):
         if self.menu_selected == 0:
@@ -137,6 +155,7 @@ def menu():
     clear_display()
     add_game_classes(True)
     add_display(menu_class())
+    add_display(select_map())
     if FIRST_RUN:
         FIRST_RUN = not FIRST_RUN
         add_display(breathing_label(0, 0, settings.width, settings.height, (0, 0, 0), 0, delay=0.01, for_from=255, for_before=0, tick=-5))

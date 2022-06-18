@@ -2,18 +2,11 @@ class vegetation():
     def __init__(self):
 
         self.tree_list = []
-        self.images = [
-            [image_label('world/vegetation/tree.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_1.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_2.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_3.png', 0 , 0, scale=SCALE_WORLD), settings.height/3.9, -settings.height/8],
-            [image_label('world/vegetation/tree_4.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_5.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_6.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_7.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_8.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0],
-            [image_label('world/vegetation/tree_9.png', 0 , 0, scale=SCALE_WORLD), settings.height/2.7, 0]
-        ]
+        self.images = []
+
+        for i in range(15):
+            self.images.append([image_label('world/vegetation/tree_%d.png' % i, 0 , 0, scale=SCALE_WORLD), (settings.height/2.7 if (i != 3) else settings.height/3.9), (0 if (i != 3) else -settings.height/8)])
+
 
         self.image_shadows = []
         for image in self.images:

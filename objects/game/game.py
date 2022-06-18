@@ -42,7 +42,13 @@ def add_game_classes(menu=False, map_name='test_summer'):
     add_display(pause_gui())
 
 def play(map_name='test_summer'):
+    on_input()
     clear_display()
     add_game_classes(map_name=map_name)
+    add_display(breathing_label(0, 0, settings.width, settings.height, (0, 0, 0), 0, delay=0.01, for_from=255, for_before=0, tick=-5))
 
     #add_display(text_label(settings.width//2, settings.height//2, 'HELLO WORLD', load_font=True, font='pixel.ttf', size=settings.height//20, anchor_x='center', color = (180, 180, 180, 255)))
+
+def play_breath(map_name='test_summer'):
+    off_input()
+    add_display(breathing_label(0, 0, settings.width, settings.height, (0, 0, 0), 0, delay=0.01, for_from=0, for_before=255, tick=5, arg='play(\'%s\')' % map_name))

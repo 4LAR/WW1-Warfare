@@ -1,6 +1,8 @@
 class select_map():
     def __init__(self):
 
+        buttons_scale = settings.height/150
+
         self.show = False
 
         self.background = label(0, 0, settings.width, settings.height, (0, 0, 0), alpha=128)
@@ -15,10 +17,10 @@ class select_map():
         ]
 
         self.back_button = image_button(
-            settings.width/20, settings.height - settings.height/5.5,
+            settings.width - settings.width/6, settings.height - settings.height/5.5,
             image = 'buttons/small/button.png',
             image_selected = 'buttons/small/button_active.png',
-            scale = settings.height/150,
+            scale = buttons_scale,
             text='',
             arg='get_obj_display(\'select_map\').show = False',
             text_color=BUTTONS_FONT_COLOR,
@@ -26,6 +28,8 @@ class select_map():
             text_scale=BUTTONS_FONT_SCALE,
             text_size_y=1.3
         )
+
+        self.back_button_ico = image_label('buttons/cross.png', settings.width - settings.width/6 + self.back_button.image_obj.sprite.width/44, settings.height - settings.height/5.5, scale=buttons_scale)
 
         self.mission_list = [
             #[x, y, map_name, mission_name]
@@ -71,6 +75,7 @@ class select_map():
             self.background.draw()
             drawp(self.image)
             self.back_button.draw()
+            drawp(self.back_button_ico)
 
             for button in self.mission_buttons:
                 button.draw()

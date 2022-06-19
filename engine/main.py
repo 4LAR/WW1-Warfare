@@ -35,6 +35,7 @@ from collections import deque
 # для конфигов
 import configparser
 import json
+import re
 
 # коллизия
 import collision

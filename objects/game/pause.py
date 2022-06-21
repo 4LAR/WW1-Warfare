@@ -53,9 +53,9 @@ class pause_gui():
 
     def on_mouse_press(self, x, y, dx, dy):
         if get_obj_display('game_rule').pause_settings:
-            self.continue_button.on_mouse_press(x, y, dx, dy)
-            self.restart_button.on_mouse_press(x, y, dx, dy)
-            self.exit_button.on_mouse_press(x, y, dx, dy)
+            if self.continue_button.on_mouse_press(x, y, dx, dy): return True
+            if self.restart_button.on_mouse_press(x, y, dx, dy): return True
+            if self.exit_button.on_mouse_press(x, y, dx, dy): return True
 
     def draw(self):
         if get_obj_display('game_rule').pause_settings:

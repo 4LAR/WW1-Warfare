@@ -60,18 +60,29 @@ class gui():
 #-----------------------------DOWN-HOTBAR---------------------------------------
 
         self.units_buttons = []
+        self.units_buttons_ico = []
         self.units_buttons_load = []
         self.units_buttons_time = []
 
-        for i in range(5):
+        # world/units/ico/
+        units_info = [
+            ['human', 'get_obj_display(\'gui\').add_unit(0)'],
+            ['human_with_mask', 'get_obj_display(\'gui\').add_unit(1)'],
+            ['tank', 'get_obj_display(\'gui\').add_unit(2)']
+
+        ]
+
+        buttons_pos_y = settings.height/60
+
+        for i in range(len(units_info)):
             self.units_buttons.append(
                 image_button(
-                    settings.width/3 + buttons_distance * i, settings.height/20,
+                    settings.width/3 + buttons_distance * i, buttons_pos_y,
                     image = 'buttons/small/button.png',
                     image_selected = 'buttons/small/button_active.png',
                     scale = buttons_scale,
                     text='',
-                    arg='',
+                    arg=units_info[i][1],
                     text_color=BUTTONS_FONT_COLOR,
                     text_indent=settings.width/35,
                     text_scale=BUTTONS_FONT_SCALE,
@@ -79,18 +90,29 @@ class gui():
                 )
             )
 
+            self.units_buttons_ico.append(
+                image_label(
+                    'world/units/ico/%s.png' % (units_info[i][0]),
+                    settings.width/3 + buttons_distance * i, buttons_pos_y,
+                    scale=buttons_scale
+                )
+            )
+
             self.units_buttons_load.append(
                 label(
-                    settings.width/3 + buttons_distance * i, settings.height/20,
+                    settings.width/3 + buttons_distance * i, buttons_pos_y,
                     self.units_buttons[i].image_obj.sprite.width, (self.units_buttons[i].image_obj.sprite.height/(i+1)),
                     (0, 0, 0), alpha=128
                 )
             )
 
-            self.units_buttons_time.append([100, 0.5])
-
+            self.units_buttons_time.append([100, 0.5, 100])
 
 #-------------------------------------------------------------------------------
+    def add_unit(self, type):
+        if self.units_buttons_time[type][0] <= 0:
+            get_obj_display('units').add_unit(type)
+            self.units_buttons_time[type][0] = self.units_buttons_time[type][2]
 
     def update(self):
         if get_obj_display('game_rule').pause and not get_obj_display('game_rule').pause_settings:
@@ -98,7 +120,7 @@ class gui():
                 self.pause_anim_flag = not self.pause_anim_flag
 
                 self.pause_anim_time = time.perf_counter() + self.pause_anim_delay
-                
+
         else:
             for i in range(len(self.units_buttons_time)):
                 if self.units_buttons_time[i][0] > 0:
@@ -113,12 +135,18 @@ class gui():
             self.play_button.on_mouse_motion(x, y, dx, dy)
             self.pause_button.on_mouse_motion(x, y, dx, dy)
 
+            for button in self.units_buttons:
+                button.on_mouse_motion(x, y, dx, dy)
+
     def on_mouse_press(self, x, y, dx, dy):
         if get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu and not get_obj_display('game_rule').pause_settings:
             self.settings_button.on_mouse_press(x, y, dx, dy)
             self.play_fast_button.on_mouse_press(x, y, dx, dy)
             self.play_button.on_mouse_press(x, y, dx, dy)
             self.pause_button.on_mouse_press(x, y, dx, dy)
+
+            for button in self.units_buttons:
+                button.on_mouse_press(x, y, dx, dy)
 
     def draw(self):
         if get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu:
@@ -128,6 +156,8 @@ class gui():
             drawp(self.pause_button)
 
             for button in self.units_buttons:
+                button.draw()
+            for button in self.units_buttons_ico:
                 button.draw()
             for button in self.units_buttons_load:
                 button.draw()

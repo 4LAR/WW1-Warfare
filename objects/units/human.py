@@ -1,4 +1,4 @@
-SCALE = settings.height / 120
+#SCALE = settings.height / 120
 
 class human():
 
@@ -38,7 +38,7 @@ class human():
         else:
             image_buf = pyglet.sprite.Sprite(image_buf, x = self.pos_x, y = self.pos_y)
 
-        image_buf.scale = SCALE
+        image_buf.scale = SCALE_WORLD/1.2
 
         image_buf.rotation = rotation
 
@@ -63,37 +63,41 @@ class human():
 
         return bone
 
-    def __init__(self):
+    def update_pos(self, x, y):
+        self.pos_x = x
+        self.pos_y = y
+
+    def __init__(self, x, y, country='germany', type_body=1, type_head=1, type_hand=1, type_leg=1, type_weapon=1):
 
         self.shadow_alpha = 45
 
-        self.pos_x = settings.width/2
-        self.pos_y = settings.height/2
+        self.pos_x = x#settings.width/2
+        self.pos_y = y#settings.height/2
 
-        self.body = self.add_bone('world/units/human/body.png', anchor_x=2, anchor_y=2, rotation=4)
-        self.head = self.add_bone('world/units/human/head.png', bone=self.body, deg=4, height=1.02, anchor_x=2, anchor_y=1, nopos_bool=True)
+        self.body = self.add_bone('world/units/human/%s/body/%d.png' % (country, type_body), anchor_x=2, anchor_y=2, rotation=4)
+        self.head = self.add_bone('world/units/human/%s/head/%d.png' % (country, type_head), bone=self.body, deg=4, height=1.02, anchor_x=2, anchor_y=1, nopos_bool=True)
 
         #self.R_leg = self.add_bone('human/leg_1.png', bone=self.body, deg=-20, height=(1/-2.8), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
-        self.R_leg = self.add_bone('world/units/human/leg_1.png', bone=self.body, deg=-20, height=(1/-2.5), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
-        self.R_leg_1 = self.add_bone('world/units/human/leg_2.png', bone=self.R_leg, deg=-10, height=(1/-1.4), anchor_x=2, anchor_y=1, rotation=10, nopos_bool=True, mask=True)
-        self.R_leg_2 = self.add_bone('world/units/human/leg_3.png', bone=self.R_leg_1, deg=-10, height=-1, anchor_x=1.5, anchor_y=1, rotation=0, nopos_bool=True, mask=True)
+        self.R_leg = self.add_bone('world/units/human/%s/leg/%d/leg_1.png' % (country, type_leg), bone=self.body, deg=-20, height=(1/-2.5), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
+        self.R_leg_1 = self.add_bone('world/units/human/%s/leg/%d/leg_2.png' % (country, type_leg), bone=self.R_leg, deg=-10, height=(1/-1.4), anchor_x=2, anchor_y=1, rotation=10, nopos_bool=True, mask=True)
+        self.R_leg_2 = self.add_bone('world/units/human/%s/leg/%d/leg_3.png' % (country, type_leg), bone=self.R_leg_1, deg=-10, height=-1, anchor_x=1.5, anchor_y=1, rotation=0, nopos_bool=True, mask=True)
 
         #self.L_leg = self.add_bone('human/leg_1.png', bone=self.body, deg=20, height=(1/-2.8), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True)
-        self.L_leg = self.add_bone('world/units/human/leg_1.png', bone=self.body, deg=20, height=(1/-2.5), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True)
-        self.L_leg_1 = self.add_bone('world/units/human/leg_2.png', bone=self.L_leg, deg=-10, height=(1/-1.4), anchor_x=2, anchor_y=1, rotation=10, nopos_bool=True)
-        self.L_leg_2 = self.add_bone('world/units/human/leg_3.png', bone=self.L_leg_1, deg=-10, height=-1, anchor_x=1.5, anchor_y=1, rotation=0, nopos_bool=True)
+        self.L_leg = self.add_bone('world/units/human/%s/leg/%d/leg_1.png' % (country, type_leg), bone=self.body, deg=20, height=(1/-2.5), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True)
+        self.L_leg_1 = self.add_bone('world/units/human/%s/leg/%d/leg_2.png' % (country, type_leg), bone=self.L_leg, deg=-10, height=(1/-1.4), anchor_x=2, anchor_y=1, rotation=10, nopos_bool=True)
+        self.L_leg_2 = self.add_bone('world/units/human/%s/leg/%d/leg_3.png' % (country, type_leg), bone=self.L_leg_1, deg=-10, height=-1, anchor_x=1.5, anchor_y=1, rotation=0, nopos_bool=True)
 
-        self.R_hand = self.add_bone('world/units/human/hand_1.png', bone=self.body, deg=-145, height=(1/-2), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
-        self.R_hand_1 = self.add_bone('world/units/human/hand_2.png', bone=self.R_hand, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
-        self.R_hand_2 = self.add_bone('world/units/human/hand_3.png', bone=self.R_hand_1, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-40, nopos_bool=True, mask=True)
-        self.R_hand_3 = self.add_bone('world/units/human/hand_4.png', bone=self.R_hand_2, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-90, nopos_bool=True, mask=True)
+        self.R_hand = self.add_bone('world/units/human/%s/hand/%d/hand_1.png' % (country, type_hand), bone=self.body, deg=-145, height=(1/-2), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
+        self.R_hand_1 = self.add_bone('world/units/human/%s/hand/%d/hand_2.png' % (country, type_hand), bone=self.R_hand, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True, mask=True)
+        self.R_hand_2 = self.add_bone('world/units/human/%s/hand/%d/hand_3.png' % (country, type_hand), bone=self.R_hand_1, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-40, nopos_bool=True, mask=True)
+        self.R_hand_3 = self.add_bone('world/units/human/%s/hand/%d/hand_4.png' % (country, type_hand), bone=self.R_hand_2, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-90, nopos_bool=True, mask=True)
 
-        self.L_hand = self.add_bone('world/units/human/hand_1.png', bone=self.body, deg=145, height=(1/-2), anchor_x=2, anchor_y=1, rotation=20, nopos_bool=True)
-        self.L_hand_1 = self.add_bone('world/units/human/hand_2.png', bone=self.L_hand, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True)
-        self.L_hand_2 = self.add_bone('world/units/human/hand_3.png', bone=self.L_hand_1, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-40, nopos_bool=True)
-        self.L_hand_3 = self.add_bone('world/units/human/hand_4.png', bone=self.L_hand_2, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-90, nopos_bool=True)
+        self.L_hand = self.add_bone('world/units/human/%s/hand/%d/hand_1.png' % (country, type_hand), bone=self.body, deg=145, height=(1/-2), anchor_x=2, anchor_y=1, rotation=20, nopos_bool=True)
+        self.L_hand_1 = self.add_bone('world/units/human/%s/hand/%d/hand_2.png' % (country, type_hand), bone=self.L_hand, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-20, nopos_bool=True)
+        self.L_hand_2 = self.add_bone('world/units/human/%s/hand/%d/hand_3.png' % (country, type_hand), bone=self.L_hand_1, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-40, nopos_bool=True)
+        self.L_hand_3 = self.add_bone('world/units/human/%s/hand/%d/hand_4.png' % (country, type_hand), bone=self.L_hand_2, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1, rotation=-90, nopos_bool=True)
 
-        self.weapon = self.add_bone('world/units/human/weapons/1.png', bone=self.L_hand_3, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1.4, rotation=-90, nopos_bool=True)
+        self.weapon = self.add_bone('world/units/human/%s/weapons/%d.png' % (country, type_weapon), bone=self.L_hand_3, deg=0, height=(1/-1.1), anchor_x=2, anchor_y=1.4, rotation=-90, nopos_bool=True)
 
         self.anim_play('walk')
 
@@ -104,19 +108,17 @@ class human():
         self.time = time.perf_counter() + self.delay
 
         self.last_anim = [
-            [
-                0, 0,
+            0, 0,
 
-                0, 0, 0,
-                0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
 
-                0, 0, 0, 0,
-                0, 0, 0, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 0,
 
-                0,
+            0,
 
-                0
-            ]
+            0
         ]
 
     def anim_play(self, name):
@@ -214,7 +216,7 @@ class human():
         drawp(self.L_hand_3[0])
         drawp(self.L_hand[0])
 
-def menu():
+def menu_():
     clear_display()
     add_display(human())
 

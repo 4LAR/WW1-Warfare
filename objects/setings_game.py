@@ -25,15 +25,6 @@ class setings_game(): # класс который содержит себе ин
                     engine_settings.on_mouse_press_bool    = False
                     engine_settings.on_mouse_release_bool  = False
 
-            if symbol == key.F6:
-                get_obj_display('tanks').tank_list.append(tank(0))
-
-            if symbol == key.F7:
-                get_obj_display('tanks').tank_list.append(tank(1, 1))
-
-            if symbol == key.F8:
-                get_obj_display('tanks').tank_list = []
-
             if symbol == key.F2:
                 self.draw_gui = not self.draw_gui
 

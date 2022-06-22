@@ -84,6 +84,9 @@ fuck_import = fuck_import()
 engine_settings = Engine_settings()
 settings = settings()
 
+for conf in settings.pyglet_options:
+    pyglet.options[conf] = settings.pyglet_options[conf]
+
 # константы директорий
 img_dir     = os.path.join(os.path.dirname(__file__), 'img') # путь к папке с картинками
 sound_dir   = os.path.join(os.path.dirname(__file__), 'sound') # путь к папке со звуком
@@ -288,7 +291,11 @@ if (game_args.args.pack and CODE):
 
 else:
     if (CODE):
-        if settings.use_window:
+
+        width = settings.width # ширина окна
+        height = settings.height # высота окна
+
+        if not game_args.args.nowindow: #settings.use_window:
 
             def change_window_settings():
                 window.set_fullscreen(fullscreen=(True if settings.full_screen == 2 else False), width=settings.width, height=settings.height)
@@ -311,26 +318,30 @@ else:
                     vsync=True
                 )
 
-        window.set_caption(version_engine)
+            window.set_caption(version_engine)
 
-        width = settings.width # ширина окна
-        height = settings.height # высота окна
+            fps_label = FPS_label(0, settings.height - settings.height//40, 18, (50, 255, 50, 255))
 
-        fps_label = FPS_label(0, settings.height - settings.height//40, 18, (50, 255, 50, 255))
+            keyboard = key.KeyStateHandler()
+            window.push_handlers(keyboard)
 
-        keyboard = key.KeyStateHandler()
-        window.push_handlers(keyboard)
+            keys = key.KeyStateHandler()
+            window.push_handlers(keys) # делаем так чтобы мы могли считать нажатые клавиши
 
-        keys = key.KeyStateHandler()
-        window.push_handlers(keys) # делаем так чтобы мы могли считать нажатые клавиши
-
-        #console_term.run_terminal()
-        #console_term.stop_terminal()
+            #console_term.run_terminal()
+            #console_term.stop_terminal()
         try:
 
             exec(CODE)
-            pyglet.clock.schedule_interval(update, 1/settings.fps)
-            pyglet.app.run()
+            if len(game_args.args.command) > 0:
+                exec(game_args.args.command)
+                
+            if not game_args.args.nowindow:
+                pyglet.clock.schedule_interval(update, 1/settings.fps)
+                pyglet.app.run()
+            else:
+                while True:
+                    on_update(0)
 
         except Exception as e:
             console_term.print(str(e), 3)

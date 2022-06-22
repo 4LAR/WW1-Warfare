@@ -1,6 +1,16 @@
 
 BUFFERSIZE = 512
 
+def load_cursor(image, scale = 1):
+    if settings.game_options['game_cursor']:
+        image = pyglet.image.load('assets/img/%s' % image)
+        texture = image.get_texture()
+        texture.width = texture.width * scale
+        texture.height = texture.height * scale
+
+        cursor = pyglet.window.ImageMouseCursor(texture, 0, texture.height)
+        window.set_mouse_cursor(cursor)
+
 def save_dict(dict, name):
     json.dump(dict, open(str(name) + '.json','w'))
 

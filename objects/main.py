@@ -42,6 +42,22 @@ def show_cursor():
 def hide_cursor():
     window.set_mouse_visible(False)
 
+settings_dict = {
+    'shadows_transparency': 80,
+    'shadows_angle': -120,
+    'game_cursor': True
+}
+
+settings.add_game_options(settings_dict)
+
+SCALE_WORLD = settings.height/240
+
+BUTTONS_FONT_SCALE = 10;
+BUTTONS_FONT_COLOR = (182, 179, 166, 255)
+
+SHADOWS_DEG = settings.game_options['shadows_angle']
+SHADOWS_COLOR = (0, 0, 0, int(settings.game_options['shadows_transparency']))
+
 def main():
     window.set_icon(pyglet.image.load('assets/img/logo_game.png'))
     menu()

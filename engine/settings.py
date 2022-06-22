@@ -6,74 +6,137 @@
 import screeninfo
 import configparser
 import os
+import pyglet
 
-class settings():
+from console import *
+
+def get_bool(str):
+    return True if str.lower() == 'true' else False
+
+class settings(console_term):
     def __init__(self):
         super().__init__()
-        
-        self.width = screeninfo.get_monitors()[0].width # ширина окна
-        self.height = screeninfo.get_monitors()[0].height # высота окна
-        self.full_screen = 1 # как будет работать окно (0 - окно с рамками, 1 - окно без рамок, полный экран (не стабильно) )
-        self.gamma = 1.0 # гамма (не используется)
 
-        self.fps = 120 # максимальный fps при обновлении классов
+        self.path = 'settings.ini'
+        self.update_options = True
 
-        self.show_fps = False # показ текущего fps
+        self.error_promt = 'SETTINGS: '
 
-        self.console = False # включение консоли (не используется)
+        self.engine_options = {
+            'width': screeninfo.get_monitors()[0].width,
+            'height': screeninfo.get_monitors()[0].height,
+            'full_screen': 1, # 0 - окно с рамками, 1 - окно без рамок, полный экран (не стабильно)
+            'fps': 120,
+            'show_fps': False,
+            'console': False,
+            'sound_volume': 0.4
+        }
 
-        self.sound_volume = 0.4 # громкость звука (1 - максимальное значение)
+        self.pyglet_options = {
+            'advanced_font_features': False,
+            #'audio': ('xaudio2', 'directsound', 'openal', 'pulse', 'silent'),
+            'darwin_cocoa': True,
+            'debug_font': False,
+            'debug_gl': True,
+            'debug_gl_trace': False,
+            'debug_gl_trace_args': False,
+            'debug_graphics_batch': False,
+            'debug_lib': False,
+            'debug_media': False,
+            'debug_texture': False,
+            'debug_trace': False,
+            'debug_trace_args': False,
+            'debug_trace_depth': 1,
+            'debug_trace_flush': True,
+            'debug_win32': False,
+            'debug_x11': False,
+            'graphics_vbo': True,
+            'headless': False,
+            'headless_device': 0,
+            'search_local_libs': True,
+            'shadow_window': True,
+            'vsync': False, # None,
+            'win32_disable_shaping': False,
+            'xlib_fullscreen_override_redirect': False,
+            'xsync': True
+        }
 
-        self.use_window = True # False для включения только консольного режима (не используется)
+        self.game_options = {}
 
-        self.use_numba = False # Использовать библиотку numba для более быстрых рассчётов
+        self.read_settings()
+        self.activate_engine_settings()
 
-        self.read_settings() # читаем настроки
+    def add_game_options(self, dict):
+        self.game_options = dict
+        self.read_settings(True)
+
+    def activate_engine_settings(self):
+        for conf in self.engine_options:
+            exec('settings.%s = %s' % (conf, self.engine_options[conf]))
 
     def save_settings(self):
         config = configparser.ConfigParser()
 
-        config.add_section("Screen")
-        config.set("Screen", "use_window", str(self.use_window)) # хз как делать
-        config.set("Screen", "width", str(self.width))
-        config.set("Screen", "height", str(self.height))
-        config.set("Screen", "full-screen", str(self.full_screen))
-
-        config.add_section("User_interface")
-        config.set("User_interface", "show-fps", str(self.show_fps))
-        config.set("User_interface", "console", str(self.console))
-
-        config.add_section("Sound")
-        config.set("Sound", "volume", str(self.sound_volume))
-
         config.add_section("Engine")
-        config.set("Engine", "use_numba", str(self.use_numba))
+        for conf in self.engine_options:
+            config.set("Engine", str(conf), str(self.engine_options[conf]))
 
+        config.add_section("Pyglet")
+        for conf in self.pyglet_options:
+            config.set("Pyglet", str(conf), str(self.pyglet_options[conf]))
 
-        with open("settings.txt", "w") as config_file: # запись файла с настройками
+        config.add_section("Game")
+        for conf in self.game_options:
+            config.set("Game", str(conf), str(self.game_options[conf]))
+
+        with open(self.path, "w") as config_file:
             config.write(config_file)
 
+        self.print(str(self.error_promt) + 'The settings have been saved to a file <<%s>>' % (self.path), 1)
 
-    def read_settings(self):
-        if not os.path.exists("settings.txt"): # проверка файла с настройками
+    def read_settings(self, game_options_bool=False):
+        if not os.path.exists(self.path): # проверка файла с настройками
             self.save_settings()
             self.read_settings()
+
         else:
             config = configparser.ConfigParser()
-            config.read("settings.txt")
-            self.use_window = True if (config.get("Screen", "use_window")).lower() == 'true' else False
-            if ( screeninfo.get_monitors()[0].width >= int(config.get("Screen", "width")) and screeninfo.get_monitors()[0].height >= int(config.get("Screen", "height"))):
-                self.width = int(config.get("Screen", "width"))
-                self.height = int(config.get("Screen", "height"))
+            config.read(self.path)
 
-            self.full_screen = int(config.get("Screen", "full-screen"))
+            #if ( screeninfo.get_monitors()[0].width >= int(config.get("Engine", "width")) and screeninfo.get_monitors()[0].height >= int(config.get("Engine", "height"))):
+            #    self.width = int(config.get("Engine", "width"))
+            #    self.height = int(config.get("Engine", "height"))
 
-            self.show_fps = True if (config.get("User_interface", "show-fps")).lower() == 'true' else False
+            #else:
+            #    self.print(str(self.error_promt) + 'The screen resolution is incorrectly specified', 2)
 
-            self.console = True if (config.get("User_interface", "console")).lower() == 'true' else False
+            error_bool = False
 
-            self.sound_volume = float(config.get("Sound", "volume"))
+            if not game_options_bool:
+                for conf in self.engine_options:
+                    try:
+                        conf_buf = config.get("Engine", str(conf))
+                        self.engine_options[conf] = conf_buf
+                    except:
+                        self.print(str(self.error_promt) + 'Error read argument (%s: %s)' % ('Engine', conf), 3)
+                        error_bool = True
 
-            self.use_numba = True if (config.get("Engine", "use_numba")).lower() == 'true' else False
-            if self.use_numba:
-                import numba # типо оптимизация
+                for conf in self.pyglet_options:
+                    try:
+                        conf_buf = config.get("Pyglet", str(conf))
+                        self.pyglet_options[conf] = get_bool(conf_buf) if (type(self.pyglet_options[conf]) == bool) else float(conf_buf)
+                    except:
+                        self.print(str(self.error_promt) + 'Error read argument (%s: %s)' % ('Pyglet', conf), 3)
+                        error_bool = True
+
+            else:
+                for conf in self.game_options:
+                    try:
+                        conf_buf = config.get("Game", str(conf))
+                        self.game_options[conf] = get_bool(conf_buf) if (type(self.game_options[conf]) == bool) else float(conf_buf)
+                    except:
+                        self.print(str(self.error_promt) + 'Error read argument (%s: %s)' % ('Game', conf), 3)
+                        error_bool = True
+
+            if error_bool and self.update_options:
+                self.save_settings()

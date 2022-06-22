@@ -1,11 +1,4 @@
 
-SCALE_WORLD = settings.height/240
-
-BUTTONS_FONT_SCALE = 10;
-BUTTONS_FONT_COLOR = (182, 179, 166, 255)
-
-SHADOWS_DEG = -120
-SHADOWS_COLOR = (0, 0, 0, 80)
 
 def image_transform_for_shadow(image_name, shadows_color, pil_image = False):
     if pil_image:

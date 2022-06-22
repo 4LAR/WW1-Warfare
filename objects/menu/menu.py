@@ -149,6 +149,7 @@ class menu_class():
 FIRST_RUN = True
 
 def menu():
+    load_cursor('cursor/default.png', SCALE_WORLD)
     show_cursor()
     global FIRST_RUN
 

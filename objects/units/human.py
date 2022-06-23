@@ -34,11 +34,16 @@ class human():
 
         if bone != None:
             x, y = self.get_pos_by_deg(bone[0].rotation + deg, bone[0].height * height)
-            image_buf = pyglet.sprite.Sprite(image_buf, x = (self.pos_x if not nopos_bool else bone[0].x) + x, y = bone[0].y + y)
+            image_buf = pyglet.sprite.Sprite(image_buf, x = (self.pos_x if not nopos_bool else bone[0].x) + x, y = bone[0].y + y, batch=self.batch)
         else:
-            image_buf = pyglet.sprite.Sprite(image_buf, x = self.pos_x, y = self.pos_y)
+            image_buf = pyglet.sprite.Sprite(image_buf, x = self.pos_x, y = self.pos_y, batch=self.batch)
 
         image_buf.scale = SCALE_WORLD/1.2
+
+        tex = image_buf.image.get_texture()
+
+        glTexParameteri(tex.target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexParameteri(tex.target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
 
         image_buf.rotation = rotation
 
@@ -69,10 +74,14 @@ class human():
 
     def __init__(self, x, y, country='germany', type_body=1, type_head=1, type_hand=1, type_leg=1, type_weapon=1):
 
+        self.batch_bool = False
+
         self.shadow_alpha = 45
 
         self.pos_x = x#settings.width/2
         self.pos_y = y#settings.height/2
+
+        self.batch = pyglet.graphics.Batch()
 
         self.body = self.add_bone('world/units/human/%s/body/%d.png' % (country, type_body), anchor_x=2, anchor_y=2, rotation=4)
         self.head = self.add_bone('world/units/human/%s/head/%d.png' % (country, type_head), bone=self.body, deg=4, height=1.02, anchor_x=2, anchor_y=1, nopos_bool=True)
@@ -145,7 +154,7 @@ class human():
         if symbol == key.F7:
             self.anim_play('aiming_2')
 
-    def update(self):
+    async def update(self):
         if not self.anim_end:
             if self.time <= time.perf_counter():
                 self.last_anim = self.anim['list'][self.anim_state]
@@ -169,52 +178,56 @@ class human():
 
             time_p = (1 - (self.time - time.perf_counter())*(1/self.delay))
 
-            self.update_bone(self.body, rotation=lerp(old_anim[0], anim[0], time_p))
+            self.body = self.update_bone(self.body, rotation=lerp(old_anim[0], anim[0], time_p))
 
-            self.update_bone(self.head, self.body, rotation=lerp(old_anim[1], anim[1], time_p))
+            self.head = self.update_bone(self.head, self.body, rotation=lerp(old_anim[1], anim[1], time_p))
 
-            self.update_bone(self.R_leg, self.body, rotation=lerp(old_anim[2], anim[2], time_p))
-            self.update_bone(self.R_leg_1, self.R_leg, rotation=lerp(old_anim[3], anim[3], time_p))
-            self.update_bone(self.R_leg_2, self.R_leg_1, rotation=lerp(old_anim[4], anim[4], time_p))
+            self.R_leg = self.update_bone(self.R_leg, self.body, rotation=lerp(old_anim[2], anim[2], time_p))
+            self.R_leg_1 = self.update_bone(self.R_leg_1, self.R_leg, rotation=lerp(old_anim[3], anim[3], time_p))
+            self.R_leg_2 = self.update_bone(self.R_leg_2, self.R_leg_1, rotation=lerp(old_anim[4], anim[4], time_p))
 
-            self.update_bone(self.L_leg, self.body, rotation=lerp(old_anim[5], anim[5], time_p))
-            self.update_bone(self.L_leg_1, self.L_leg, rotation=lerp(old_anim[6], anim[6], time_p))
-            self.update_bone(self.L_leg_2, self.L_leg_1, rotation=lerp(old_anim[7], anim[7], time_p))
+            self.L_leg = self.update_bone(self.L_leg, self.body, rotation=lerp(old_anim[5], anim[5], time_p))
+            self.L_leg_1 = self.update_bone(self.L_leg_1, self.L_leg, rotation=lerp(old_anim[6], anim[6], time_p))
+            self.L_leg_2 = self.update_bone(self.L_leg_2, self.L_leg_1, rotation=lerp(old_anim[7], anim[7], time_p))
 
-            self.update_bone(self.R_hand, self.body, rotation=lerp(old_anim[8], anim[8], time_p))
-            self.update_bone(self.R_hand_1, self.R_hand, rotation=lerp(old_anim[9], anim[9], time_p))
-            self.update_bone(self.R_hand_2, self.R_hand_1, rotation=lerp(old_anim[10], anim[10], time_p))
-            self.update_bone(self.R_hand_3, self.R_hand_2, rotation=lerp(old_anim[11], anim[11], time_p))
+            self.R_hand = self.update_bone(self.R_hand, self.body, rotation=lerp(old_anim[8], anim[8], time_p))
+            self.R_hand_1 = self.update_bone(self.R_hand_1, self.R_hand, rotation=lerp(old_anim[9], anim[9], time_p))
+            self.R_hand_2 = self.update_bone(self.R_hand_2, self.R_hand_1, rotation=lerp(old_anim[10], anim[10], time_p))
+            self.R_hand_3 = self.update_bone(self.R_hand_3, self.R_hand_2, rotation=lerp(old_anim[11], anim[11], time_p))
 
-            self.update_bone(self.L_hand, self.body, rotation=lerp(old_anim[12], anim[12], time_p))
-            self.update_bone(self.L_hand_1, self.L_hand, rotation=lerp(old_anim[13], anim[13], time_p))
-            self.update_bone(self.L_hand_2, self.L_hand_1, rotation=lerp(old_anim[14], anim[14], time_p))
-            self.update_bone(self.L_hand_3, self.L_hand_2, rotation=lerp(old_anim[15], anim[15], time_p))
+            self.L_hand = self.update_bone(self.L_hand, self.body, rotation=lerp(old_anim[12], anim[12], time_p))
+            self.L_hand_1 = self.update_bone(self.L_hand_1, self.L_hand, rotation=lerp(old_anim[13], anim[13], time_p))
+            self.L_hand_2 = self.update_bone(self.L_hand_2, self.L_hand_1, rotation=lerp(old_anim[14], anim[14], time_p))
+            self.L_hand_3 = self.update_bone(self.L_hand_3, self.L_hand_2, rotation=lerp(old_anim[15], anim[15], time_p))
 
             self.update_bone(self.weapon, self.L_hand_3, rotation=lerp(old_anim[16], anim[16], time_p))
 
     def draw(self):
-        drawp(self.R_leg_1[0])
-        drawp(self.R_leg_2[0])
-        drawp(self.R_leg[0])
+        if not self.batch_bool:
+            drawp(self.R_leg_1[0])
+            drawp(self.R_leg_2[0])
+            drawp(self.R_leg[0])
 
-        drawp(self.L_leg_1[0])
-        drawp(self.L_leg_2[0])
-        drawp(self.L_leg[0])
+            drawp(self.L_leg_1[0])
+            drawp(self.L_leg_2[0])
+            drawp(self.L_leg[0])
 
-        drawp(self.R_hand_2[0])
-        drawp(self.R_hand_1[0])
-        drawp(self.R_hand_3[0])
-        drawp(self.R_hand[0])
+            drawp(self.R_hand_2[0])
+            drawp(self.R_hand_1[0])
+            drawp(self.R_hand_3[0])
+            drawp(self.R_hand[0])
 
-        drawp(self.body[0])
-        drawp(self.head[0])
+            drawp(self.body[0])
+            drawp(self.head[0])
 
-        drawp(self.weapon[0])
-        drawp(self.L_hand_2[0])
-        drawp(self.L_hand_1[0])
-        drawp(self.L_hand_3[0])
-        drawp(self.L_hand[0])
+            drawp(self.weapon[0])
+            drawp(self.L_hand_2[0])
+            drawp(self.L_hand_1[0])
+            drawp(self.L_hand_3[0])
+            drawp(self.L_hand[0])
+
+        else:
+            self.batch.draw()
 
 def menu_():
     clear_display()

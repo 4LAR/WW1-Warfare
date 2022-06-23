@@ -33,7 +33,7 @@ class tank():
 
         self.state = 0
 
-    def update(self):
+    async def update(self):
 
         if not self.stop:
             self.pos_x += self.speed

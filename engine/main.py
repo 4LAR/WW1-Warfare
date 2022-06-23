@@ -24,6 +24,7 @@ from pyglet.window import key, mouse
 # многопоточность
 import multiprocessing
 import threading
+import asyncio
 
 # обработка изображений
 import PIL
@@ -335,7 +336,7 @@ else:
             exec(CODE)
             if len(game_args.args.command) > 0:
                 exec(game_args.args.command)
-                
+
             if not game_args.args.nowindow:
                 pyglet.clock.schedule_interval(update, 1/settings.fps)
                 pyglet.app.run()

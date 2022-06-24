@@ -1,2 +1,4 @@
 menu.py
 map.py
+menu_pages/main_menu.py
+menu_pages/settings_menu.py

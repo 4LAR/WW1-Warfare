@@ -45,7 +45,9 @@ def hide_cursor():
 settings_dict = {
     'shadows_transparency': 80,
     'shadows_angle': -120,
-    'game_cursor': True
+    'game_cursor': True,
+    'game_parallax': True,
+    'game_shadows': True
 }
 
 settings.add_game_options(settings_dict)

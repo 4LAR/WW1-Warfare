@@ -63,7 +63,7 @@ class world():
             return pyglet.event.EVENT_HANDLED
 
     def update(self):
-        if sattings_game.parallax:
+        if settings.game_options['game_parallax']:
             self.map_offs[0] = -(-settings.width/2 + self.disp_pos[0]) / self.fov
             self.map_offs[1] = -(-settings.height/2 + self.disp_pos[1]) / self.fov
         else:

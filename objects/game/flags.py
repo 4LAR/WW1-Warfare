@@ -47,14 +47,15 @@ class parties_flag():
             self.flagpole.sprite.y = y
             drawp(self.flagpole)
 
-            self.flagpole_shadow.x = x - self.flagpole.sprite.width/2.2
-            self.flagpole_shadow.y = y - self.flagpole_shadow.height
-            drawp(self.flagpole_shadow)
-
             self.flags[flag[0]][flag[3]].sprite.x = x + self.flags[flag[0]][flag[3]].sprite.width/9
             self.flags[flag[0]][flag[3]].sprite.y = y + (self.flagpole.sprite.height - (self.flags[flag[0]][flag[3]].sprite.height*1.1))
             drawp(self.flags[flag[0]][flag[3]])
 
-            self.flags_shadows[flag[0]][flag[3]].x = x + self.flags[flag[0]][flag[3]].sprite.width/9 - self.flagpole.sprite.width/2.2 + self.flagpole_shadow.width/1.8
-            self.flags_shadows[flag[0]][flag[3]].y = y - (self.flagpole.sprite.height - (self.flags[flag[0]][flag[3]].sprite.height*1.1))
-            drawp(self.flags_shadows[flag[0]][flag[3]])
+            if settings.game_options['game_shadows']:
+                self.flagpole_shadow.x = x - self.flagpole.sprite.width/2.2
+                self.flagpole_shadow.y = y - self.flagpole_shadow.height
+                drawp(self.flagpole_shadow)
+
+                self.flags_shadows[flag[0]][flag[3]].x = x + self.flags[flag[0]][flag[3]].sprite.width/9 - self.flagpole.sprite.width/2.2 + self.flagpole_shadow.width/1.8
+                self.flags_shadows[flag[0]][flag[3]].y = y - (self.flagpole.sprite.height - (self.flags[flag[0]][flag[3]].sprite.height*1.1))
+                drawp(self.flags_shadows[flag[0]][flag[3]])

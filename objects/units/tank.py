@@ -48,6 +48,7 @@ class tank():
         self.images[self.state].y = y
         drawp(self.images[self.state])
 
-        self.images_shadows[self.state].x = self.pos_x + x
-        self.images_shadows[self.state].y = y - self.images_shadows[self.state].height
-        drawp(self.images_shadows[self.state])
+        if settings.game_options['game_shadows']:
+            self.images_shadows[self.state].x = self.pos_x + x
+            self.images_shadows[self.state].y = y - self.images_shadows[self.state].height
+            drawp(self.images_shadows[self.state])

@@ -36,7 +36,7 @@ class vegetation():
                     self.images[tree[0]][0].sprite.y = y
                     drawp(self.images[tree[0]][0])
 
-                if sattings_game.shadows and shadows:
+                if settings.game_options['game_shadows'] and shadows:
                     self.image_shadows[tree[0]].x = x - (self.image_shadows[tree[0]].width/20 if (tree[0] == 3) else 0)# + (self.image_shadows[tree[0]].width/8 if (tree[0] != 2) else self.image_shadows[tree[0]].width/50)
                     self.image_shadows[tree[0]].y = y - (self.image_shadows[tree[0]].height/20 if (tree[0] == 3) else self.image_shadows[tree[0]].height)# - (self.image_shadows[tree[0]].height/1.4 if (tree[0] != 2) else self.image_shadows[tree[0]].height/4)
                     drawp(self.image_shadows[tree[0]])

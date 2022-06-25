@@ -11,6 +11,10 @@ def load_cursor(image, scale = 1):
         cursor = pyglet.window.ImageMouseCursor(texture, 0, texture.height)
         window.set_mouse_cursor(cursor)
 
+    else:
+        cursor = window.get_system_mouse_cursor(window.CURSOR_DEFAULT)
+        window.set_mouse_cursor(cursor)
+
 def save_dict(dict, name):
     json.dump(dict, open(str(name) + '.json','w'))
 
@@ -859,7 +863,7 @@ class breathing_label(): # класс для прорисовки 4х уголь
         self.rec.draw()
 
 class image_flag():
-    def __init__(self, x, y, image, image_flag, scale=1, rotation=0, alpha=255, center=False, image_selected_flag=None, image_selected=None, poligon=False, function_bool = False, function=None, arg=None, text=None, text_color=(0, 0, 0, 0), text_indent=0, font='default.ttf', shadow=False, color_shadow=(0, 0, 0, 128), use=True, text_scale=5.5, text_size_y=1.6):
+    def __init__(self, x, y, image, image_flag, scale=1, rotation=0, alpha=255, center=False, image_selected_flag=None, image_selected=None, poligon=False, function_bool = False, function=None, arg=None, text=None, text_color=(0, 0, 0, 0), text_indent=0, font='default.ttf', shadow=False, color_shadow=(0, 0, 0, 128), use=True, text_scale=5.5, text_size_y=1.6, flag=False):
         self.use = use
 
         self.x = x
@@ -895,7 +899,7 @@ class image_flag():
         self.poligon = poligon
 
         self.selected = False
-        self.flag = False
+        self.flag = flag
 
         self.shadow = shadow
         self.color_shadow = color_shadow

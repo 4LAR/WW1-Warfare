@@ -12,6 +12,8 @@ class menu_class():
         # загружаем картинку
         self.image_logo = image_label('logo_game.png', settings.width/1.28, settings.height - settings.height/3, scale=settings.height/150)
 
+        self.back_background = label(0, 0, settings.width, settings.height, (0, 0, 0), alpha=128)
+
         # кнопки главного меню
         self.menu_selected = 0
         self.menu_elements = []
@@ -26,10 +28,30 @@ class menu_class():
 
         add_settings_menu(self)
 
+    def save_settings(self):
+        settings.game_options['game_cursor'] = self.menu_elements[1][1].flag
+        settings.game_options['game_parallax'] = self.menu_elements[1][2].flag
+        settings.game_options['game_shadows'] = self.menu_elements[1][3].flag
+        settings.save_settings()
+
+        load_cursor('cursor/default.png', SCALE_WORLD)
+
+        self.open_menu(0)
+
 #-------------------------------------------------------------------------------
 
     def open_menu(self, id):
         self.menu_selected = id
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == pyglet.window.key.ESCAPE:
+            if self.menu_selected == 0:
+                exit()
+
+            else:
+                self.open_menu(0)
+
+            return pyglet.event.EVENT_HANDLED
 
     def on_mouse_motion(self, x, y, dx, dy):
         if not get_obj_display('select_map').show:
@@ -50,6 +72,9 @@ class menu_class():
     def draw(self):
         if self.menu_selected == 0:
             drawp(self.image_logo)
+
+        elif self.menu_selected == 1:
+            self.back_background.draw()
 
         for element in self.menu_elements[self.menu_selected]:
             element.draw()

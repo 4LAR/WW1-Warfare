@@ -68,6 +68,11 @@ import termcolor
 # для открытия ссылок
 import webbrowser
 
+#
+import cpuinfo
+import psutil
+import platform
+
 # импортирование своих библиотек
 from get_time import *
 from console import *
@@ -76,6 +81,7 @@ from fuckimport import *
 from pickle_func import *
 from engine_settings import *
 from settings import *
+from machine_info import *
 from fps_monitor import *
 from check_exception import *
 
@@ -84,6 +90,9 @@ console_term = console_term(game_args.args.log)
 fuck_import = fuck_import()
 engine_settings = Engine_settings()
 settings = settings()
+machine_info = machine_info()
+
+machine_info.get(True)
 
 for conf in settings.pyglet_options:
     pyglet.options[conf] = settings.pyglet_options[conf]

@@ -64,13 +64,14 @@ class console_term():
         except Exception as e:
             self.print(e, 3)
 
-    def print(self, text, type=0):
-        termcolor.cprint((('[' + str(get_time()) + '] ') if self.log_time_bool else '') + str(text), self.type_color[type])
+    def print(self, text, type=0, no_time_bool=False):
+        time_str = (('[' + str(get_time()) + '] ') if self.log_time_bool else '') if not no_time_bool else ''
+        termcolor.cprint(time_str + str(text), self.type_color[type])
         self.log_list.append([
-            (('[' + str(get_time()) + '] ') if self.log_time_bool else '') + str(text),
+            time_str + str(text),
             type
         ])
         if (self.log_bool):
             log_file = open('log.txt', 'a')
-            log_file.write((('[' + str(get_time()) + '] ') if self.log_time_bool else '') + str(text) + '\n')
+            log_file.write(time_str + str(text) + '\n')
             log_file.close()

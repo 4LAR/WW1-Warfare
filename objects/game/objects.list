@@ -9,4 +9,5 @@ gui.py
 pause.py
 world_save.py
 game_rule.py
+rope.py
 game.py

@@ -32,6 +32,7 @@ def add_game_classes(menu=False, map_name='test_summer'):
     add_display(units())
     add_display(vegetation_down())
     add_display(fog())
+    add_display(rope())
     add_display(gui())
     add_display(pause_gui())
 

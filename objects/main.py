@@ -47,7 +47,8 @@ settings_dict = {
     'shadows_angle': -120,
     'game_cursor': True,
     'game_parallax': True,
-    'game_shadows': True
+    'game_shadows': True,
+    'draw_rope': False,
 }
 
 settings.add_game_options(settings_dict)

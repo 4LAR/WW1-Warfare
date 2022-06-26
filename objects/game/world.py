@@ -12,6 +12,16 @@ class world():
 
         self.collide_mouse = settings.width/10
         self.collide_mouse_y = [settings.height/6, settings.height - settings.height/6]
+        self.collide_mouse_bool = False
+
+        self.cursor_images = [
+            PIL_to_pyglet_imageData(Image.open('assets/img/cursor/default.png')),
+            PIL_to_pyglet_imageData(Image.open('assets/img/cursor/move.png').transpose(Image.FLIP_LEFT_RIGHT)),
+            PIL_to_pyglet_imageData(Image.open('assets/img/cursor/move.png'))
+        ]
+
+        for i in range(len(self.cursor_images)):
+            self.cursor_images[i] = load_cursor(self.cursor_images[i], SCALE_WORLD, raw_image=True, return_cursor=True)
 
         # autum, summer
         self.season = get_obj_display('world_save').dict['world']['season']
@@ -79,6 +89,21 @@ class world():
                 self.move_left()
             elif keyboard[key.D] or ((self.disp_pos[0] > settings.width - self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):
                 self.move_right()
+
+            if ((self.disp_pos[0] < self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):
+                if not self.collide_mouse_bool:
+                    self.collide_mouse_bool = True
+                    window.set_mouse_cursor(self.cursor_images[1])
+
+            elif ((self.disp_pos[0] > settings.width - self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):
+                if not self.collide_mouse_bool:
+                    self.collide_mouse_bool = True
+                    window.set_mouse_cursor(self.cursor_images[2])
+
+            else:
+                if self.collide_mouse_bool:
+                    self.collide_mouse_bool = False
+                    window.set_mouse_cursor(self.cursor_images[0])
 
         # изменение аоложения картинки на экране
         self.image.sprite.x = self.move_x + self.map_offs[0] - self.fov

@@ -1,19 +1,29 @@
 
 BUFFERSIZE = 512
 
-def load_cursor(image, scale = 1):
+def load_cursor(image, scale = 1, raw_image=False, return_cursor=False):
     if settings.game_options['game_cursor']:
-        image = pyglet.image.load('assets/img/%s' % image)
+        if not raw_image:
+            image = pyglet.image.load('assets/img/%s' % image)
+
         texture = image.get_texture()
         texture.width = texture.width * scale
         texture.height = texture.height * scale
 
         cursor = pyglet.window.ImageMouseCursor(texture, 0, texture.height)
-        window.set_mouse_cursor(cursor)
+        if return_cursor:
+            return cursor
+        else:
+            window.set_mouse_cursor(cursor)
 
     else:
         cursor = window.get_system_mouse_cursor(window.CURSOR_DEFAULT)
-        window.set_mouse_cursor(cursor)
+        if return_cursor:
+            return cursor
+        else:
+            window.set_mouse_cursor(cursor)
+
+
 
 def save_dict(dict, name):
     json.dump(dict, open(str(name) + '.json','w'))
@@ -55,6 +65,12 @@ def PIL_to_pyglet(image_pil, scale=1, anchor_bool = False):
         image_pyglet.anchor_x = image_pyglet.width // 2
         image_pyglet.anchor_y = image_pyglet.height // 2
     image_pyglet = pyglet.sprite.Sprite(image_pyglet, settings.width//4, settings.height//2)
+    image_pyglet.scale = scale
+    return image_pyglet
+
+def PIL_to_pyglet_imageData(image_pil, scale=1):
+    raw_image = image_pil.tobytes()
+    image_pyglet = pyglet.image.ImageData(image_pil.width, image_pil.height, 'RGBA', raw_image, pitch=-image_pil.width * 4)
     image_pyglet.scale = scale
     return image_pyglet
 

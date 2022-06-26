@@ -58,7 +58,11 @@ class world():
                     get_obj_display('game_rule')._pause_settings()
 
             else:
-                exit()
+                if get_obj_display('menu_class').menu_selected == 0:
+                    exit()
+
+                else:
+                    get_obj_display('menu_class').save_settings()
 
             return pyglet.event.EVENT_HANDLED
 

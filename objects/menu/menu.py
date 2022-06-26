@@ -43,16 +43,6 @@ class menu_class():
     def open_menu(self, id):
         self.menu_selected = id
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == pyglet.window.key.ESCAPE:
-            if self.menu_selected == 0:
-                exit()
-
-            else:
-                self.open_menu(0)
-
-            return pyglet.event.EVENT_HANDLED
-
     def on_mouse_motion(self, x, y, dx, dy):
         if not get_obj_display('select_map').show:
             for element in self.menu_elements[self.menu_selected]:

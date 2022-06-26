@@ -18,7 +18,7 @@ class dot():
 
         #self.dot_list.append([flip, position_x, state])
         self.load()
-        
+
     def load(self):
         self.dot_list = []
         for el in get_obj_display('world_save').dict['world']['dot']:
@@ -33,6 +33,7 @@ class dot():
             self.images[dot[2]].sprite.y = y
             drawp(self.images[dot[2]])
 
-            self.image_shadows[dot[2]].x = x
-            self.image_shadows[dot[2]].y = y - self.image_shadows[dot[2]].height
-            drawp(self.image_shadows[dot[2]])
+            if settings.game_options['game_shadows']:
+                self.image_shadows[dot[2]].x = x
+                self.image_shadows[dot[2]].y = y - self.image_shadows[dot[2]].height
+                drawp(self.image_shadows[dot[2]])

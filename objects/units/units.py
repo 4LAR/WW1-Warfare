@@ -5,7 +5,38 @@ class units():
         self.human_list = []
         self.tank_list = []
 
-        #self.humans.append([human(0, 0), 0])
+        self.images = []
+        self.images_shadows = []
+
+        # human type 1
+        self.images.append([])
+        self.images_shadows.append([])
+
+        # human type 2
+        self.images.append([])
+        self.images_shadows.append([])
+
+        # tank
+
+        self.images.append([])
+        self.images_shadows.append([])
+
+        type = 1
+        flip = 0
+
+        tanks_types = [
+            ['mark-1', 5],
+            ['a7v', 5]
+        ]
+
+        for i in range(tanks_types[type][1]):
+            self.images[2].append(Image.open('assets/img/world/units/%s/%d.png' % (tanks_types[type][0], i + 1)))
+            if flip == 0:
+                self.images[2][i] = self.images[2][i].transpose(Image.FLIP_LEFT_RIGHT)
+
+            self.images_shadows[2].append(PIL_to_pyglet(image_transform_for_shadow(self.images[2][i], SHADOWS_COLOR, True), SCALE_WORLD/1.2))
+
+            self.images[2][i] = PIL_to_pyglet(self.images[2][i], SCALE_WORLD/1.2)
 
     def add_unit(self, type=0):
         y = random.randint(
@@ -13,13 +44,17 @@ class units():
             int(settings.height/10)
         )
         if type == 0:
-            self.human_list.append([human(0, 0), 0, y, False])
+            #self.human_list.append([human(0, 0), 0, y, False])
+            pass
 
         elif type == 1:
-            self.human_list.append([human(0, 0, 'germany', 1, 2, 1, 1, 2), 0, y, False])
+            #self.human_list.append([human(0, 0, 'germany', 1, 2, 1, 1, 2), 0, y, False])
+            pass
 
         elif type == 2:
-            self.tank_list.append(tank(1))
+            self.tank_list.append([tank(0, y, self.images[2], self.images_shadows[2], 1), y])
+
+            self.tank_list = sorted(self.tank_list, key=lambda tup: tup[1], reverse=True)
 
     def draw(self):
 
@@ -28,11 +63,11 @@ class units():
 
         for tank in self.tank_list:
             if not get_obj_display('game_rule').pause:
-                #tank.update()
+                tank[0].update()
                 #threading.Thread(target=tank.update).start()
-                asyncio.run(tank.update())
+                #asyncio.run(tank.update())
 
-            tank.draw(x, y)
+            tank[0].draw(x, y)
 
 
         for human in self.human_list:

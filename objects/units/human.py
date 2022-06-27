@@ -1,6 +1,6 @@
 #SCALE = settings.height / 120
 
-class human():
+class human_():
 
     def get_pos_by_deg(self, deg, size):
         #deg += 90

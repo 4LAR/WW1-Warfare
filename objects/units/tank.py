@@ -1,39 +1,26 @@
 
 class tank():
-    def __init__(self, type=0, flip=0):
+    def __init__(self, x, y, images, images_shadows, type=0, flip=0):
         self.type = type
         self.flip = flip
 
         self.health = 100
         self.damage = 10
 
-        self.images = []
-        self.images_shadows = []
+        self.images = images
+        self.images_shadows = images_shadows
 
         self.stop = False
 
-        tanks_types = [
-            ['mark-1', 5],
-            ['a7v', 5]
-        ]
-
-        for i in range(tanks_types[type][1]):
-            self.images.append(Image.open('assets/img/world/units/%s/%d.png' % (tanks_types[type][0], i + 1)))
-            if flip == 0:
-                self.images[i] = self.images[i].transpose(Image.FLIP_LEFT_RIGHT)
-
-            self.images_shadows.append(PIL_to_pyglet(image_transform_for_shadow(self.images[i], SHADOWS_COLOR, True), SCALE_WORLD/1.2))
-
-            self.images[i] = PIL_to_pyglet(self.images[i], SCALE_WORLD/1.2)
-
-        self.pos_x = -self.images[0].width if (flip == 0) else (get_obj_display('world').image.sprite.width)
+        self.pos_x = (-self.images[0].width + x) if (flip == 0) else (get_obj_display('world').image.sprite.width + x)
+        self.pos_y = y
         self.speed = self.images[0].width/400
         if flip:
             self.speed = -self.speed
 
         self.state = 0
 
-    async def update(self):
+    def update(self):
 
         if not self.stop:
             self.pos_x += self.speed
@@ -45,10 +32,10 @@ class tank():
 
     def draw(self, x, y):
         self.images[self.state].x = self.pos_x + x
-        self.images[self.state].y = y
+        self.images[self.state].y = y + self.pos_y
         drawp(self.images[self.state])
 
         if settings.game_options['game_shadows']:
             self.images_shadows[self.state].x = self.pos_x + x
-            self.images_shadows[self.state].y = y - self.images_shadows[self.state].height
+            self.images_shadows[self.state].y = y - self.images_shadows[self.state].height + self.pos_y
             drawp(self.images_shadows[self.state])

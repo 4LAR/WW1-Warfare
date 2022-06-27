@@ -49,6 +49,7 @@ settings_dict = {
     'game_parallax': True,
     'game_shadows': True,
     'draw_rope': False,
+    'draw_logo': True
 }
 
 settings.add_game_options(settings_dict)
@@ -60,9 +61,6 @@ BUTTONS_FONT_COLOR = (182, 179, 166, 255)
 
 SHADOWS_DEG = settings.game_options['shadows_angle']
 SHADOWS_COLOR = (0, 0, 0, int(settings.game_options['shadows_transparency']))
-
-glEnable(GL_TEXTURE_2D)
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
 
 def main():
     window.set_icon(pyglet.image.load('assets/img/logo_game.png'))

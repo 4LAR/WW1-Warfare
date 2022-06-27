@@ -19,7 +19,6 @@ window.set_icon(pyglet.image.load('assets/img/stone_engine.png'))
 class skip():
 	def __init__(self, type=0):
 		self.type = type
-		pass
 
 	def on_key_press(self, symbol, modifiers):
 		if symbol == pyglet.window.key.ESCAPE:
@@ -34,7 +33,7 @@ class skip():
 def add_timer_text_logo():
 	add_display(breathing_label(0, 0, settings.width, settings.height, (0, 0, 0), 0, delay=0.04, function=main, for_from=0, for_before=255, tick=5))
 
-if False:#user_game_settings.draw_logo:
+if settings.game_options['draw_logo']:
 	hide_cursor()
 	add_display(skip())
 	add_display(label(0, 0, settings.width, settings.height, (58, 57, 69)))

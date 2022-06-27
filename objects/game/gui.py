@@ -106,7 +106,7 @@ class gui():
                 )
             )
 
-            self.units_buttons_time.append([100, 0.5, 100])
+            self.units_buttons_time.append([10, 0.5, 10])
 
 #-------------------------------------------------------------------------------
     def add_unit(self, type):

@@ -92,7 +92,8 @@ engine_settings = Engine_settings()
 settings = settings()
 machine_info = machine_info()
 
-machine_info.get(True)
+if game_args.args.log:
+    machine_info.get(True)
 
 for conf in settings.pyglet_options:
     pyglet.options[conf] = settings.pyglet_options[conf]

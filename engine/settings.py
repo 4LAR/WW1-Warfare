@@ -55,7 +55,7 @@ class settings(console_term):
             'headless_device': 0,
             'search_local_libs': True,
             'shadow_window': True,
-            'vsync': False, # None,
+            'vsync': True, # None,
             'win32_disable_shaping': False,
             'xlib_fullscreen_override_redirect': False,
             'xsync': True

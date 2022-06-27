@@ -20,15 +20,22 @@ class tank():
 
         self.state = 0
 
+        self.distance = self.images[0].width / 2
+
     def update(self):
 
         if not self.stop:
             self.pos_x += self.speed
 
-            if (
-                ((self.pos_x > get_obj_display('world').image.sprite.width - (self.images[0].width * 2)) and self.flip == 0) or
-                (self.pos_x < (self.images[0].width)) and self.flip == 1):
+            #if (
+            #    ((self.pos_x > get_obj_display('world').image.sprite.width - (self.images[0].width * 2)) and self.flip == 0) or
+            #    (self.pos_x < (self.images[0].width)) and self.flip == 1):
+            #    self.stop = True
+
+            if (self.pos_x + self.images[0].width + self.images[0].width/2 > get_obj_display('world').pos_with_world(get_obj_display('rope').rope_pos)):
                 self.stop = True
+            else:
+                self.stop = False
 
     def draw(self, x, y):
         self.images[self.state].x = self.pos_x + x

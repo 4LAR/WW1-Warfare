@@ -1,14 +1,37 @@
 
-class tank():
+class unit():
     def __init__(self, x, y, images, images_shadows, type=0, flip=0):
-        self.type = type
-        self.flip = flip
 
-        self.health = 1000
-        self.damage = 100
+        # types
+        # 0 human
+        # 1 human with gas
+        # 2 tank
+        self.type = type
+
+        # 0 left to right
+        # 1 right to left
+        self.flip = flip
 
         self.images = images
         self.images_shadows = images_shadows
+
+        if type == 0:
+            self.health = 1000
+            self.damage = 100
+            self.delay_shoot = 1
+            self.speed = self.images[0].width/400
+
+        elif type == 1:
+            self.health = 100
+            self.damage = 50
+            self.delay_shoot = 1
+            self.speed = self.images[0].width/400
+
+        elif type == 2:
+            self.health = 100
+            self.damage = 25
+            self.delay_shoot = 0.5
+            self.speed = self.images[0].width/400
 
         self.stopline_bool = False
 
@@ -16,7 +39,7 @@ class tank():
 
         self.pos_x = (-self.images[0].width + x) if (flip == 0) else (get_obj_display('world').image.sprite.width + x)
         self.pos_y = y
-        self.speed = self.images[0].width/400
+
         if flip:
             self.speed = -self.speed
 
@@ -26,7 +49,6 @@ class tank():
 
         self.distance = self.images[0].width / 2
 
-        self.delay_shoot = 1
         self.time_shoot = time.perf_counter() + self.delay_shoot
 
     def update(self):
@@ -52,15 +74,15 @@ class tank():
         if self.time_shoot <= time.perf_counter():
             enemy_list = []
             enemy_country = 1 if (self.flip == 0) else 0
-            if self.health > 0 and self.stopline_bool and len(get_obj_display('units').tank_list[enemy_country]) > 0:
-                for i in range(len(get_obj_display('units').tank_list[enemy_country])):
-                    if get_obj_display('units').tank_list[enemy_country][i][0].health > 0:
+            if self.health > 0 and self.stopline_bool and len(get_obj_display('units').unit_list[enemy_country]) > 0: #and get_obj_display('rope').state == [True, True]:
+                for i in range(len(get_obj_display('units').unit_list[enemy_country])):
+                    if get_obj_display('units').unit_list[enemy_country][i][0].health > 0 and get_obj_display('units').unit_list[enemy_country][i][0].stopline_bool:
                         enemy_list.append(i)
 
                 if len(enemy_list) > 0:
-                    get_obj_display('units').tank_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0].health -= self.damage
+                    get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0].health -= self.damage
 
-            self.time_shoot = time.perf_counter() + self.delay_shoot
+                self.time_shoot = time.perf_counter() + self.delay_shoot
 
         if self.health <= 0:
             self.state = 4

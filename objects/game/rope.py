@@ -6,28 +6,28 @@ class rope():
         self.speed = 0
 
     def update(self):
-        self.speed = 1
-        tank_buf = None
-        self.state = [False, False]
+        if not get_obj_display('game_rule').pause:
+            self.speed = 1
+            tank_buf = [None, None]
+            self.state = [False, False]
 
-        for i in range(2):
-            for tank in get_obj_display('units').tank_list[i]:
-                if tank[0].stopline_bool and tank[0].health > 0:
-                    self.state[i] = True
-                    if tank[0].speed > self.speed:
-                        self.speed = tank[0].speed
-                        tank_buf = tank[0]
+            for i in range(2):
+                for tank in get_obj_display('units').unit_list[i]:
+                    if tank[0].stopline_bool and tank[0].health > 0:
+                        self.state[i] = True
+                        if abs(tank[0].speed) > self.speed:
+                            self.speed = abs(tank[0].speed)
+                            tank_buf[i] = tank[0]
 
-        self.tick_speed = self.speed / get_obj_display('world').pixel_size
+            self.tick_speed = self.speed / get_obj_display('world').pixel_size
 
-        if self.state[0] and not self.state[1]:
-            tank_buf.stop = False
-            tank_buf.stopline_bool = False
-            self.rope_pos += self.tick_speed
-        elif not self.state[0] and self.state[1]:
-            tank_buf.stop = False
-            tank_buf.stopline_bool = False
-            self.rope_pos -= self.tick_speed
+            if self.state[0] and not self.state[1]:
+                tank_buf[0].stop = False
+                self.rope_pos += self.tick_speed
+                
+            elif not self.state[0] and self.state[1]:
+                tank_buf[1].stop = False
+                self.rope_pos -= self.tick_speed
 
     def draw(self):
         if settings.game_options['draw_rope']:

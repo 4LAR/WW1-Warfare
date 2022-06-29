@@ -68,7 +68,9 @@ class gui():
         units_info = [
             ['human', 'get_obj_display(\'gui\').add_unit(0)'],
             ['human_with_mask', 'get_obj_display(\'gui\').add_unit(1)'],
-            ['tank', 'get_obj_display(\'gui\').add_unit(2)']
+            ['tank', 'get_obj_display(\'gui\').add_unit(2)'],
+            ['tank', 'pass'],
+            ['tank', 'pass']
 
         ]
 

@@ -37,6 +37,8 @@ def add_game_classes(menu=False, map_name='test_summer'):
     add_display(rope())
     add_display(gui())
     add_display(pause_gui())
+    if not menu:
+        add_display(bot_player())
 
 def play(map_name='test_summer'):
     on_input()

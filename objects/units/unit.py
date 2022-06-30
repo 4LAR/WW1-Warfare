@@ -5,7 +5,9 @@ class unit():
         # types
         # 0 human
         # 1 human with gas
-        # 2 tank
+        # 2 sniper
+        # 3 mortar man
+        # 4 tank
         self.type = type
 
         # 0 left to right
@@ -16,20 +18,32 @@ class unit():
         self.images_shadows = images_shadows
 
         if type == 0:
-            self.health = 1000
-            self.damage = 100
-            self.delay_shoot = 1
-            self.speed = self.images[0].width/400
-
-        elif type == 1:
             self.health = 100
             self.damage = 50
             self.delay_shoot = 1
-            self.speed = self.images[0].width/400
+            self.speed = settings.width/1500
+
+        elif type == 1:
+            self.health = 100
+            self.damage = 25
+            self.delay_shoot = 1
+            self.speed = settings.width/1500
 
         elif type == 2:
             self.health = 100
-            self.damage = 25
+            self.damage = 100
+            self.delay_shoot = 1
+            self.speed = settings.width/1500
+
+        elif type == 3:
+            self.health = 100
+            self.damage = 200
+            self.delay_shoot = 1
+            self.speed = settings.width/1500
+
+        elif type == 4:
+            self.health = 1000
+            self.damage = 200
             self.delay_shoot = 0.5
             self.speed = self.images[0].width/400
 
@@ -45,7 +59,8 @@ class unit():
 
         self.state = 0
 
-        self.state_health = self.health / (len(self.images) - 1)
+        if self.type == 4:
+            self.state_health = self.health / (len(self.images) - 1)
 
         self.distance = self.images[0].width / 2
 
@@ -53,7 +68,7 @@ class unit():
 
     def update(self):
 
-        if not self.stop:
+        if not self.stop and self.health > 0:
             self.pos_x += self.speed
 
             #if (
@@ -80,15 +95,20 @@ class unit():
                         enemy_list.append(i)
 
                 if len(enemy_list) > 0:
-                    get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0].health -= self.damage
+                    random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0]
+                    random_enemy.health -= self.damage
+
+                    if random_enemy.health <= 0 and self.flip == 0:
+                        get_obj_display('game_rule').money += get_obj_display('game_rule').money_kill_unit[random_enemy.type]
 
                 self.time_shoot = time.perf_counter() + self.delay_shoot
 
-        if self.health <= 0:
-            self.state = 4
+        if self.type == 4:
+            if self.health <= 0:
+                self.state = 4
 
-        elif self.health < self.state_health * (3 - self.state):
-            self.state += 1
+            elif self.health < self.state_health * (3 - self.state):
+                self.state += 1
 
     def draw(self, x, y):
         self.images[self.state].x = self.pos_x + x

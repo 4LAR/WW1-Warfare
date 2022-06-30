@@ -85,10 +85,11 @@ def load_obj(name ):
 def lerp(start, end, a):
     return (1-a) * start + a * end
 
-def draw_line(pos_from, pos_before):
+def draw_line(pos_from, pos_before, color=(255, 255, 255)):
     points = [pos_from[0], pos_from[1], pos_before[0], pos_before[1]]
     pyglet.graphics.draw(2, pyglet.gl.GL_LINE_LOOP,
-        ('v2i', points)
+        ('v2i', points),
+        ('c3B', color * int(len(points) / 2))
     )
 
 def draw_poly(poligon):
@@ -1133,6 +1134,8 @@ class image_button():
                 self.selected = True
             else:
                 self.selected = False
+
+            return self.selected
 
     def update_pos(self, x_pol, y_pol, x_im, y_im):
         self.image_poligon.pos.x = x_pol

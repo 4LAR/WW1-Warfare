@@ -7,13 +7,24 @@ class units():
         self.images = []
         self.images_shadows = []
 
-        # human type 1
-        self.images.append([])
-        self.images_shadows.append([])
+        test_image = PIL_to_pyglet(Image.new("RGBA", (30, 40), (0, 0, 0, 255)), SCALE_WORLD/1.2)
+        test_image_shadow = PIL_to_pyglet(Image.new("RGBA", (30, 40), (0, 0, 0, 0)), SCALE_WORLD/1.2)
 
-        # human type 2
-        self.images.append([])
-        self.images_shadows.append([])
+        # human
+        self.images.append([test_image])
+        self.images_shadows.append([test_image_shadow])
+
+        # human with gas
+        self.images.append([test_image])
+        self.images_shadows.append([test_image_shadow])
+
+        # sniper
+        self.images.append([test_image])
+        self.images_shadows.append([test_image_shadow])
+
+        # mortar man
+        self.images.append([test_image])
+        self.images_shadows.append([test_image_shadow])
 
         # tank
         self.images.append([])
@@ -25,36 +36,40 @@ class units():
         ]
 
         for type in range(len(unit_types)):
-            self.images[2].append([[], []])
-            self.images_shadows[2].append([[], []])
+            self.images[4].append([[], []])
+            self.images_shadows[4].append([[], []])
             for flip in range(2):
                 for i in range(unit_types[type][1]):
-                    self.images[2][type][flip].append(Image.open('assets/img/world/units/%s/%d.png' % (unit_types[type][0], i + 1)))
+                    self.images[4][type][flip].append(Image.open('assets/img/world/units/%s/%d.png' % (unit_types[type][0], i + 1)))
                     if flip == 0:
-                        self.images[2][type][flip][i] = self.images[2][type][flip][i].transpose(Image.FLIP_LEFT_RIGHT)
+                        self.images[4][type][flip][i] = self.images[4][type][flip][i].transpose(Image.FLIP_LEFT_RIGHT)
 
-                    self.images_shadows[2][type][flip].append(PIL_to_pyglet(image_transform_for_shadow(self.images[2][type][flip][i], SHADOWS_COLOR, True), SCALE_WORLD/1.2))
+                    self.images_shadows[4][type][flip].append(PIL_to_pyglet(image_transform_for_shadow(self.images[4][type][flip][i], SHADOWS_COLOR, True), SCALE_WORLD/1.2))
 
-                    self.images[2][type][flip][i] = PIL_to_pyglet(self.images[2][type][flip][i], SCALE_WORLD/1.2)
+                    self.images[4][type][flip][i] = PIL_to_pyglet(self.images[4][type][flip][i], SCALE_WORLD/1.2)
 
-    def add_unit(self, type=0):
+    def add_unit(self, type=0, flip=0):
         y = random.randint(
             int(-settings.height/10),
             int(settings.height/10)
         )
         if type == 0:
             #self.human_list.append([human(0, 0), 0, y, False])
-            pass
+            self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], 0, flip), y])
 
         elif type == 1:
-            #self.human_list.append([human(0, 0, 'germany', 1, 2, 1, 1, 2), 0, y, False])
-            self.unit_list[1].append([unit(0, y, self.images[2][0][1], self.images_shadows[2][0][1], 0, flip=1), y])
-            pass
+            self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], 1, flip), y])
 
         elif type == 2:
-            self.unit_list[0].append([unit(0, y, self.images[2][1][0], self.images_shadows[2][1][0], 0), y])
+            self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], 2, flip), y])
 
-            self.unit_list[0] = sorted(self.unit_list[0], key=lambda tup: tup[1], reverse=True)
+        elif type == 3:
+            self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], 3, flip), y])
+
+        elif type == 4:
+            self.unit_list[flip].append([unit(0, y, self.images[4][1][flip], self.images_shadows[4][1][flip], 4, flip), y])
+
+        self.unit_list[flip] = sorted(self.unit_list[flip], key=lambda tup: tup[1], reverse=True)
 
     def draw(self, down=False):
 

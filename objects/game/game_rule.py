@@ -6,6 +6,18 @@ class game_rule():
 
         self.tank_speed = SCALE_WORLD / 10
 
+        self.money = 0
+        self.money_tick = 1
+        self.money_delay = 1
+        self.money_kill_unit = {
+            0: 1,
+            1: 2,
+            2: 1,
+            3: 1,
+            4: 10
+        }
+        self.money_time = time.perf_counter() + self.money_delay
+
     def _pause_settings(self):
         self.pause_settings = True
         self.pause = True
@@ -25,6 +37,12 @@ class game_rule():
     def _play_fast(self):
         self.pause = False
         self.play_fast = True
+
+    def update(self):
+        if self.money_time <= time.perf_counter():
+            self.money += self.money_tick
+
+            self.money_time = time.perf_counter() + self.money_delay
 
     #def update(self):
     #    print(self.pause)

@@ -40,6 +40,13 @@ class Console(): # класс игровой консоли
         elif command.split(' ')[0] == 'play':
             play(command.split(' ')[1])
 
+        elif command.split(' ')[0] == 'addmoney':
+            try:
+                get_obj_display('game_rule').money += int(command.split(' ')[1])
+
+            except:
+                pass
+
         else:
             exec(command + '()')
 

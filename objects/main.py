@@ -48,6 +48,7 @@ settings_dict = {
     'game_cursor': True,
     'game_parallax': True,
     'game_shadows': True,
+    'game_map_battle_state': True,
     'draw_rope': False,
     'draw_logo': True
 }

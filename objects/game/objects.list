@@ -9,6 +9,7 @@ gui.py
 pause.py
 world_save.py
 game_rule.py
+game_info.py
 rope.py
 bot_player.py
 game.py

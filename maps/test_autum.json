@@ -1,7 +1,8 @@
 {
   "info": {
     "name": "test map",
-    "author": "100LAR"
+    "author": "100LAR",
+    "bot": false
   },
   "world": {
     "season": "autumn",
@@ -29,7 +30,8 @@
       [160, 1]
     ],
     "dot": [
-      [0, 2, 0]
+      [0, 2, 1000],
+      [1, 240, 1000]
     ],
     "parties_flag": [
       [3, 20, 0, 0]

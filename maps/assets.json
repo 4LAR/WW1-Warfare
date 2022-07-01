@@ -1,7 +1,8 @@
 {
   "info": {
     "name": "test map",
-    "author": "100LAR"
+    "author": "100LAR",
+    "bot": false
   },
   "world": {
     "season": "summer",

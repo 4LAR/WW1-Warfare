@@ -154,7 +154,7 @@ class human_():
         if symbol == key.F7:
             self.anim_play('aiming_2')
 
-    async def update(self):
+    def update(self):
         if not self.anim_end:
             if self.time <= time.perf_counter():
                 self.last_anim = self.anim['list'][self.anim_state]
@@ -231,7 +231,7 @@ class human_():
 
 def menu_():
     clear_display()
-    add_display(human())
+    add_display(human_(settings.width/2, settings.height/2))
 
     # Вывод горячих клавиш в консоль
     console_term.print("-"*20)

@@ -238,7 +238,7 @@ class text_cursor():
         self.cursor_text.draw()
 
 class timer():
-    def __init__(self, delay, func, arg=None):
+    def __init__(self, delay, func=None, arg=None):
         self.time = time.perf_counter() + delay
         self.func = func
         self.arg = arg

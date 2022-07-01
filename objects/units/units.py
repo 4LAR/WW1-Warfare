@@ -31,8 +31,8 @@ class units():
         self.images_shadows.append([])
 
         unit_types = [
-            ['mark-1', 5],
-            ['a7v', 5]
+            ['a7v', 5],
+            ['mark-1', 5]
         ]
 
         for type in range(len(unit_types)):
@@ -67,9 +67,15 @@ class units():
             self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], 3, flip), y])
 
         elif type == 4:
-            self.unit_list[flip].append([unit(0, y, self.images[4][1][flip], self.images_shadows[4][1][flip], 4, flip), y])
+            self.unit_list[flip].append([unit(0, y, self.images[4][flip][flip], self.images_shadows[4][flip][flip], 4, flip), y])
 
         self.unit_list[flip] = sorted(self.unit_list[flip], key=lambda tup: tup[1], reverse=True)
+
+        if flip == 0:
+            get_obj_display('game_info').info['unit_spawned'] += 1
+
+        else:
+            get_obj_display('game_info').info['enemy_unit_spawned'] += 1
 
     def draw(self, down=False):
 

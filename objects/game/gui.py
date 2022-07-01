@@ -144,7 +144,7 @@ class gui():
                 )
             )
 
-            self.units_buttons_time.append([self.units_info[i][4], self.units_info[i][3], self.units_info[i][4]])
+            self.units_buttons_time.append([0, self.units_info[i][3], self.units_info[i][4]])
 
 #-------------------------------------------------------------------------------
     def add_unit(self, type):
@@ -153,6 +153,7 @@ class gui():
             self.units_buttons_time[type][0] = self.units_buttons_time[type][2]
 
             get_obj_display('game_rule').money -= self.units_info[type][2]
+            get_obj_display('game_info').info['money_spent'] += self.units_info[type][2]
 
     def update(self):
         if get_obj_display('game_rule').pause and not get_obj_display('game_rule').pause_settings:
@@ -235,5 +236,5 @@ class gui():
                     (128, 0, 0)
                 )
 
-            if get_obj_display('game_rule').pause and self.pause_anim_flag and not get_obj_display('game_rule').pause_settings:
+            if get_obj_display('game_rule').pause and self.pause_anim_flag and not get_obj_display('game_rule').pause_settings and not get_obj_display('game_rule').end_game:
                 self.pause_text.draw()

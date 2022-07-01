@@ -48,7 +48,7 @@ class unit():
             self.speed = self.images[0].width/400
 
         self.stopline_bool = False
-
+        self.dot = False
         self.stop = False
 
         self.pos_x = (-self.images[0].width + x) if (flip == 0) else (get_obj_display('world').image.sprite.width + x)
@@ -68,7 +68,7 @@ class unit():
 
     def update(self):
 
-        if not self.stop and self.health > 0:
+        if not self.stop and self.health > 0 and not self.dot:
             self.pos_x += self.speed
 
             #if (
@@ -76,8 +76,14 @@ class unit():
             #    (self.pos_x < (self.images[0].width)) and self.flip == 1):
             #    self.stop = True
 
-        if (((self.pos_x + self.images[0].width + self.images[0].width/2 > get_obj_display('world').pos_with_world(get_obj_display('rope').rope_pos)) and self.flip == 0) or
-            ((self.pos_x - self.images[0].width/2 < get_obj_display('world').pos_with_world(get_obj_display('rope').rope_pos)) and self.flip == 1)):
+        if (
+            (self.flip == 0 and (self.pos_x + self.images[0].width + self.distance > get_obj_display('world').pos_with_world(get_obj_display('dot').dot_list[1][1]))) or
+            (self.flip == 1 and (self.pos_x - self.distance < get_obj_display('world').pos_with_world(get_obj_display('dot').dot_list[0][1])))
+            ):
+            self.dot = True
+
+        if (((self.pos_x + self.images[0].width + self.distance > get_obj_display('world').pos_with_world(get_obj_display('rope').rope_pos)) and self.flip == 0) or
+            ((self.pos_x - self.distance < get_obj_display('world').pos_with_world(get_obj_display('rope').rope_pos)) and self.flip == 1)):
 
             self.stop = True
             self.stopline_bool = True
@@ -89,17 +95,30 @@ class unit():
         if self.time_shoot <= time.perf_counter():
             enemy_list = []
             enemy_country = 1 if (self.flip == 0) else 0
-            if self.health > 0 and self.stopline_bool and len(get_obj_display('units').unit_list[enemy_country]) > 0: #and get_obj_display('rope').state == [True, True]:
-                for i in range(len(get_obj_display('units').unit_list[enemy_country])):
-                    if get_obj_display('units').unit_list[enemy_country][i][0].health > 0 and get_obj_display('units').unit_list[enemy_country][i][0].stopline_bool:
-                        enemy_list.append(i)
+            if self.health > 0 and ((self.stopline_bool and len(get_obj_display('units').unit_list[enemy_country]) > 0) or self.dot): #and get_obj_display('rope').state == [True, True]:
 
-                if len(enemy_list) > 0:
-                    random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0]
-                    random_enemy.health -= self.damage
+                if not self.dot:
+                    for i in range(len(get_obj_display('units').unit_list[enemy_country])):
+                        if get_obj_display('units').unit_list[enemy_country][i][0].health > 0 and get_obj_display('units').unit_list[enemy_country][i][0].stopline_bool:
+                            enemy_list.append(i)
 
-                    if random_enemy.health <= 0 and self.flip == 0:
-                        get_obj_display('game_rule').money += get_obj_display('game_rule').money_kill_unit[random_enemy.type]
+                    if len(enemy_list) > 0:
+                        random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0]
+                        random_enemy.health -= self.damage
+
+                        if random_enemy.health <= 0 and self.flip == 0:
+                            get_obj_display('game_rule').money += get_obj_display('game_rule').money_kill_unit[random_enemy.type]
+
+                            if self.flip == 0:
+                                get_obj_display('game_info').info['kills'] += 1
+                            else:
+                                get_obj_display('game_info').info['death'] += 1
+
+                else:
+                    get_obj_display('dot').dot_list[0 if (self.flip == 1) else 1][2] -= self.damage
+
+                    if get_obj_display('dot').dot_list[0 if (self.flip == 1) else 1][2] <= 0:
+                        get_obj_display('game_rule')._end_game()
 
                 self.time_shoot = time.perf_counter() + self.delay_shoot
 

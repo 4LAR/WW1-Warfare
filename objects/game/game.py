@@ -30,13 +30,13 @@ def add_game_classes(menu=False, map_name='test_summer'):
     add_display(vegetation_middle())
     add_display(dot())
     add_display(parties_flag())
-    #add_display(tanks())
     add_display(units_down())
     add_display(vegetation_down())
     add_display(fog())
     add_display(rope())
     add_display(gui())
     add_display(pause_gui())
+    add_display(game_info())
     if not menu:
         add_display(bot_player())
 
@@ -45,8 +45,6 @@ def play(map_name='test_summer'):
     clear_display()
     add_game_classes(map_name=map_name)
     add_display(breathing_label(0, 0, settings.width, settings.height, (0, 0, 0), 0, delay=0.01, for_from=255, for_before=0, tick=-5))
-
-    #add_display(text_label(settings.width//2, settings.height//2, 'HELLO WORLD', load_font=True, font='pixel.ttf', size=settings.height//20, anchor_x='center', color = (180, 180, 180, 255)))
 
 def play_breath(map_name='test_summer'):
     off_input()

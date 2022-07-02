@@ -54,7 +54,7 @@ class units():
             int(settings.height/10)
         )
         if type == 0:
-            #self.human_list.append([human(0, 0), 0, y, False])
+            #self.unit_list.append([human(0, 0), 0, y, False])
             self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], 0, flip), y])
 
         elif type == 1:
@@ -89,7 +89,7 @@ class units():
                         unit[0].update()
                         #threading.Thread(target=tank.update).start()
                         #asyncio.run(tank.update())
-
+                    
                     unit[0].draw(x, y)
 '''
         for i in range(2):

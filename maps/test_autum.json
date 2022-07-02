@@ -2,7 +2,7 @@
   "info": {
     "name": "test map",
     "author": "100LAR",
-    "bot": false
+    "bot": true
   },
   "world": {
     "season": "autumn",

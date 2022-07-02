@@ -45,7 +45,19 @@ class unit():
             self.health = 1000
             self.damage = 200
             self.delay_shoot = 0.5
-            self.speed = self.images[0].width/400
+            self.speed = self.images[0].width/600
+
+        self.unit_name = get_obj_display('gui').units_info[type][5]
+
+        self.unit_text = text_label(
+            0, 0,
+            text='None',
+            color=BUTTONS_FONT_COLOR,
+            size=int(((settings.height/150)/1.5) * 10),
+            load_font=True,
+            font='urod.ttf',
+            anchor_x='center'
+        )
 
         self.stopline_bool = False
         self.dot = False
@@ -67,6 +79,9 @@ class unit():
         self.time_shoot = time.perf_counter() + self.delay_shoot
 
     def update(self):
+
+        if settings.game_options['game_unit_info']:
+            self.unit_text.label.text = "(%d) %s" % (self.health, self.unit_name)
 
         if not self.stop and self.health > 0 and not self.dot:
             self.pos_x += self.speed
@@ -133,6 +148,11 @@ class unit():
         self.images[self.state].x = self.pos_x + x
         self.images[self.state].y = y + self.pos_y
         drawp(self.images[self.state])
+
+        if settings.game_options['game_unit_info'] and get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu:
+            self.unit_text.label.x = self.pos_x + x + self.images[self.state].width / 2
+            self.unit_text.label.y = y + self.pos_y + self.images[self.state].height + settings.height / 50
+            drawp(self.unit_text)
 
         if settings.game_options['game_shadows']:
             self.images_shadows[self.state].x = self.pos_x + x

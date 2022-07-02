@@ -64,17 +64,18 @@ class gui():
         self.units_buttons_load = []
         self.units_buttons_time = []
         self.units_text_money = []
+        self.units_text_name = []
 
         # world/units/ico/
         self.units_info = [
             # [0 image ico, 1 function, 2 money, 3 timer tick, 4 timer count tick]
-            ['human', 'get_obj_display(\'gui\').add_unit(0)', 10, 0.5, 100],           # human
-            ['human_with_mask', 'get_obj_display(\'gui\').add_unit(1)', 15, 0.5, 200], #  human with gas
-            ['none', 'get_obj_display(\'gui\').add_unit(2)', 15, 0.5, 200],            # sniper
-            ['none', 'get_obj_display(\'gui\').add_unit(3)', 15, 0.5, 200],            # mortar man
-            ['tank', 'get_obj_display(\'gui\').add_unit(4)', 100, 0.5, 1000],           # tank
-            ['none', 'print(\'bomb\')', 100, 0.5, 1500],                                # bomb
-            ['none', 'print(\'gas bomb\')', 120, 0.5, 2000]                             # gas bomb
+            ['human', 'get_obj_display(\'gui\').add_unit(0)', 10, 0.5, 100, 'infantry'],                    # human
+            ['human_with_mask', 'get_obj_display(\'gui\').add_unit(1)', 15, 0.5, 200, 'machine gunner'],    #  human with gas
+            ['none', 'get_obj_display(\'gui\').add_unit(2)', 15, 0.5, 200, 'sniper'],                       # sniper
+            ['none', 'get_obj_display(\'gui\').add_unit(3)', 15, 0.5, 200, 'mortar man'],                   # mortar man
+            ['tank', 'get_obj_display(\'gui\').add_unit(4)', 100, 0.5, 1000, 'tank'],                       # tank
+            ['none', 'print(\'bomb\')', 100, 0.5, 1500, 'bomb'],                                            # bomb
+            ['none', 'print(\'gas bomb\')', 120, 0.5, 2000, 'gas bomb']                                     # gas bomb
 
         ]
 
@@ -97,6 +98,13 @@ class gui():
             font='urod.ttf',
             anchor_x='center',
             anchor_y='center'
+        )
+
+        self.image_money = image_label(
+            'money.png',
+            buttons_pos_x + buttons_distance * (len(self.units_info) + 1) + self.money_background.sprite.width/2,
+            buttons_pos_y + self.money_background.sprite.height/1.5,
+            scale=buttons_scale
         )
 
         for i in range(len(self.units_info)):
@@ -144,6 +152,19 @@ class gui():
                 )
             )
 
+            self.units_text_name.append(
+                text_label(
+                    buttons_pos_x + buttons_distance * i + self.units_buttons[i].image_obj.sprite.width/2, buttons_pos_y + self.units_buttons[i].image_obj.sprite.height * 1.6,
+                    text=str(self.units_info[i][5]),
+                    color=BUTTONS_FONT_COLOR,
+                    size=int(buttons_scale * 10),
+                    load_font=True,
+                    font='urod.ttf',
+                    anchor_x='center',
+                    use = False
+                )
+            )
+
             self.units_buttons_time.append([0, self.units_info[i][3], self.units_info[i][4]])
 
 #-------------------------------------------------------------------------------
@@ -181,9 +202,11 @@ class gui():
             for i in range(len(self.units_buttons)):
                 if self.units_buttons[i].on_mouse_motion(x, y, dx, dy):
                     self.units_text_money[i].use = True
+                    self.units_text_name[i].use = True
 
                 else:
                     self.units_text_money[i].use = False
+                    self.units_text_name[i].use = False
 
     def on_mouse_press(self, x, y, dx, dy):
         if get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu and not get_obj_display('game_rule').pause_settings:
@@ -210,9 +233,12 @@ class gui():
                 button.draw()
             for button in self.units_text_money:
                 button.draw()
+            for button in self.units_text_name:
+                button.draw()
 
             self.money_background.draw()
             self.text_money.draw()
+            #self.image_money.draw()
 
             if settings.game_options['game_map_battle_state']:
                 line_pos_y = int(settings.height/200)

@@ -93,7 +93,7 @@ class unit():
 
         if (
             (self.flip == 0 and (self.pos_x + self.images[0].width + self.distance > get_obj_display('world').pos_with_world(get_obj_display('dot').dot_list[1][1]))) or
-            (self.flip == 1 and (self.pos_x - self.distance < get_obj_display('world').pos_with_world(get_obj_display('dot').dot_list[0][1])))
+            (self.flip == 1 and (self.pos_x - self.distance < get_obj_display('world').pos_with_world(get_obj_display('dot').dot_list[0][1]) + get_obj_display('dot').images[0][0].width))
             ):
             self.dot = True
 

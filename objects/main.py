@@ -51,6 +51,7 @@ settings_dict = {
     'game_map_battle_state': False,
     'game_unit_info': True,
     'game_bot': True,
+    'game_clear_dead_units': True,
     'draw_rope': False,
     'draw_logo': True
 }

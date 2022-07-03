@@ -77,6 +77,13 @@ class units():
         else:
             get_obj_display('game_info').info['enemy_unit_spawned'] += 1
 
+    def update(self):
+        if settings.game_options['game_clear_dead_units']:
+            for flip in range(2):
+                for i in range(len(self.unit_list[flip]) - 1, -1 ,-1):
+                    if self.unit_list[flip][i][0].health <= 0:
+                        self.unit_list[flip].pop(i)
+
     def draw(self, down=False):
 
         x = get_obj_display('world').move_x + get_obj_display('world').map_offs[0]
@@ -89,7 +96,7 @@ class units():
                         unit[0].update()
                         #threading.Thread(target=tank.update).start()
                         #asyncio.run(tank.update())
-                    
+
                     unit[0].draw(x, y)
 '''
         for i in range(2):

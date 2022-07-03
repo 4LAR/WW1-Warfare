@@ -7,7 +7,7 @@ class game_rule():
 
         self.tank_speed = SCALE_WORLD / 10
 
-        self.money = 0
+        self.money = int(get_obj_display('world_save').dict['info']['money'])
         self.money_tick = 1
         self.money_delay = 1
         self.money_kill_unit = {

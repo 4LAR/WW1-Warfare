@@ -176,6 +176,9 @@ class gui():
             get_obj_display('game_rule').money -= self.units_info[type][2]
             get_obj_display('game_info').info['money_spent'] += self.units_info[type][2]
 
+        else:
+            sound.play('error.wav')
+
     def update(self):
         if get_obj_display('game_rule').pause and not get_obj_display('game_rule').pause_settings:
             if self.pause_anim_time <= time.perf_counter():

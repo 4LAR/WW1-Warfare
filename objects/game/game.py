@@ -19,8 +19,8 @@ def image_transform_for_shadow(image_name, shadows_color, pil_image = False):
     return img
 
 def add_game_classes(menu=False, map_name='test_summer'):
-    add_display(game_rule())
     add_display(world_save(map_name))
+    add_display(game_rule())
     add_display(world(menu=menu))
     add_display(vegetation())
     add_display(clouds())
@@ -39,6 +39,9 @@ def add_game_classes(menu=False, map_name='test_summer'):
     add_display(game_info())
     if not menu:
         add_display(bot_player())
+
+shoot_sound = Sound()
+shoot_sound.update()
 
 def play(map_name='test_summer'):
     on_input()

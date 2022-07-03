@@ -121,16 +121,24 @@ class unit():
                         random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0]
                         random_enemy.health -= self.damage
 
-                        if random_enemy.health <= 0 and self.flip == 0:
-                            get_obj_display('game_rule').money += get_obj_display('game_rule').money_kill_unit[random_enemy.type]
+                        shoot_sound.play('hit.wav')
+
+                        if random_enemy.health <= 0:
+                            if random_enemy.type == 4:
+                                shoot_sound.play('explosion.wav')
 
                             if self.flip == 0:
-                                get_obj_display('game_info').info['kills'] += 1
-                            else:
-                                get_obj_display('game_info').info['death'] += 1
+                                get_obj_display('game_rule').money += get_obj_display('game_rule').money_kill_unit[random_enemy.type]
+
+                                if self.flip == 0:
+                                    get_obj_display('game_info').info['kills'] += 1
+                                else:
+                                    get_obj_display('game_info').info['death'] += 1
 
                 else:
                     get_obj_display('dot').dot_list[0 if (self.flip == 1) else 1][2] -= self.damage
+
+                    shoot_sound.play('hit.wav')
 
                     if get_obj_display('dot').dot_list[0 if (self.flip == 1) else 1][2] <= 0:
                         get_obj_display('game_rule')._end_game()

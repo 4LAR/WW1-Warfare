@@ -66,6 +66,8 @@ BUTTONS_FONT_COLOR = (182, 179, 166, 255)
 SHADOWS_DEG = settings.game_options['shadows_angle']
 SHADOWS_COLOR = (0, 0, 0, int(settings.game_options['shadows_transparency']))
 
+sound.update()
+
 def main():
     window.set_icon(pyglet.image.load('assets/img/logo_game.png'))
     menu()

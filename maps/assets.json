@@ -2,6 +2,7 @@
   "info": {
     "name": "test map",
     "author": "100LAR",
+    "money": 999999,
     "bot": false
   },
   "world": {

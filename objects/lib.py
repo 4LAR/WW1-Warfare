@@ -312,7 +312,7 @@ class read_key_image():
         self.cursor_poligon.pos.x = x
         self.cursor_poligon.pos.y = y
         if collision.collide(self.image_poligon, self.cursor_poligon):
-            sound.play('upgrade.wav')
+            sound.play('select.wav')
             if not self.selected:
                 self.selected = True
             else:
@@ -323,7 +323,7 @@ class read_key_image():
         self.cursor_poligon.pos.y = y
         if collision.collide(self.image_poligon, self.cursor_poligon):
             if not self.hover:
-                sound.play('select.wav')
+                sound.play('hover.wav')
             self.hover = True
         else:
             self.hover = False
@@ -429,7 +429,7 @@ class slider_image():
         self.cursor_poligon.pos.y = y
         if collision.collide(self.image_poligon, self.cursor_poligon):
             if not self.hover:
-                sound.play('select.wav')
+                sound.play('hover.wav')
             self.hover = True
         else:
             self.hover = False
@@ -438,7 +438,7 @@ class slider_image():
         self.cursor_poligon.pos.x = x
         self.cursor_poligon.pos.y = y
         if collision.collide(self.image_poligon, self.cursor_poligon):
-            sound.play('upgrade.wav')
+            sound.play('select.wav')
             self.update_state(x)
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
@@ -523,7 +523,7 @@ class input_label_image():
             self.cursor_poligon.pos.y = y
             if collision.collide(self.image_poligon, self.cursor_poligon):
                 if not self.hover and not self.selected:
-                    sound.play('select.wav')
+                    sound.play('hover.wav')
                 self.hover = True
             else:
                 self.hover = False
@@ -536,7 +536,7 @@ class input_label_image():
                 engine_settings.on_text_bool = True
                 self.selected = True
                 self.text_obj.selected = True
-                sound.play('upgrade.wav')
+                sound.play('select.wav')
                 return True
             else:
                 self.selected = False
@@ -966,7 +966,7 @@ class image_flag():
             self.cursor_poligon.pos.x = x
             self.cursor_poligon.pos.y = y
             if collision.collide(self.image_poligon, self.cursor_poligon):
-                sound.play('upgrade.wav')
+                sound.play('select.wav')
 
                 if self.flag:
                     self.flag = False
@@ -990,7 +990,7 @@ class image_flag():
             if collision.collide(self.image_poligon, self.cursor_poligon):
                 if not self.selected:
                     self.selected = True
-                    sound.play('select.wav')
+                    sound.play('hover.wav')
             else:
                 self.selected = False
 
@@ -1116,7 +1116,7 @@ class image_button():
             self.cursor_poligon.pos.x = x
             self.cursor_poligon.pos.y = y
             if collision.collide(self.image_poligon, self.cursor_poligon):
-                sound.play('upgrade.wav')
+                sound.play('select.wav')
                 if self.arg == None:
                     self.function()
                 else:
@@ -1130,7 +1130,7 @@ class image_button():
             self.cursor_poligon.pos.y = y
             if collision.collide(self.image_poligon, self.cursor_poligon):
                 if not self.selected:
-                    sound.play('select.wav')
+                    sound.play('hover.wav')
                 self.selected = True
             else:
                 self.selected = False

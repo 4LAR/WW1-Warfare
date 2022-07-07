@@ -3,3 +3,4 @@ log.txt
 settings.txt
 settings.ini
 engine/__pycache__/settings.cpython-38.pyc
+*.pyc

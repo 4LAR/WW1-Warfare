@@ -7,7 +7,7 @@ class rope():
 
     def update(self):
         if not get_obj_display('game_rule').pause:
-            self.speed = 1
+            self.speed = 0
             tank_buf = [None, None]
             self.state = [False, False]
 

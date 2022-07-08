@@ -24,7 +24,7 @@ class rope():
             if self.state[0] and not self.state[1]:
                 tank_buf[0].stop = False
                 self.rope_pos += self.tick_speed
-                
+
             elif not self.state[0] and self.state[1]:
                 tank_buf[1].stop = False
                 self.rope_pos -= self.tick_speed

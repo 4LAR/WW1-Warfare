@@ -3,7 +3,10 @@
     "name": "test map",
     "author": "100LAR",
     "money": 100,
-    "bot": true
+    "units_loaded": false,
+    "bot": true,
+    "country": "germany",
+    "enemy": "britain"
   },
   "world": {
     "season": "autumn",

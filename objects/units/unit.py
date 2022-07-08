@@ -1,6 +1,6 @@
 
 class unit():
-    def __init__(self, x, y, images, images_shadows, type=0, flip=0):
+    def __init__(self, x, y, images, images_shadows, unit_dict, type=0, flip=0):
 
         # types
         # 0 human
@@ -17,37 +17,13 @@ class unit():
         self.images = images
         self.images_shadows = images_shadows
 
-        if type == 0:
-            self.health = 100
-            self.damage = 50
-            self.delay_shoot = 1
-            self.speed = settings.width/1500
-
-        elif type == 1:
-            self.health = 100
-            self.damage = 25
-            self.delay_shoot = 1
-            self.speed = settings.width/1500
-
-        elif type == 2:
-            self.health = 100
-            self.damage = 100
-            self.delay_shoot = 1
-            self.speed = settings.width/1500
-
-        elif type == 3:
-            self.health = 100
-            self.damage = 200
-            self.delay_shoot = 1
-            self.speed = settings.width/1500
-
-        elif type == 4:
-            self.health = 1000
-            self.damage = 200
-            self.delay_shoot = 0.5
-            self.speed = self.images[0].width/600
-
-        self.unit_name = get_obj_display('gui').units_info[type][5]
+        self.health = unit_dict['health']
+        self.damage = unit_dict['demage']
+        self.delay_shoot = unit_dict['delay_shoot']
+        self.speed = settings.width / unit_dict['speed']
+        self.unit_name = unit_dict['name']
+        self.id = unit_dict['id']
+        self.priority = unit_dict['priority']
 
         self.unit_text = text_label(
             0, 0,
@@ -110,15 +86,19 @@ class unit():
         if self.time_shoot <= time.perf_counter():
             enemy_list = []
             enemy_country = 1 if (self.flip == 0) else 0
-            if self.health > 0 and ((self.stopline_bool and len(get_obj_display('units').unit_list[enemy_country]) > 0) or self.dot): #and get_obj_display('rope').state == [True, True]:
+            if self.health > 0 and ((self.stopline_bool and len(get_obj_display('units').unit_list[enemy_country]) > 0) or self.dot):
 
                 if not self.dot:
-                    for i in range(len(get_obj_display('units').unit_list[enemy_country])):
-                        if get_obj_display('units').unit_list[enemy_country][i][0].health > 0 and get_obj_display('units').unit_list[enemy_country][i][0].stopline_bool:
-                            enemy_list.append(i)
+                    for priority in self.priority:
+                        for i in range(len(get_obj_display('units').unit_list[enemy_country])):
+                            if (get_obj_display('units').unit_list[enemy_country][i][0].health > 0 and
+                                get_obj_display('units').unit_list[enemy_country][i][0].stopline_bool and
+                                get_obj_display('units').unit_list[enemy_country][i][0].id == priority):
+                                enemy_list.append(i)
 
                     if len(enemy_list) > 0:
-                        random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0]
+                        #random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[random.randint(0, len(enemy_list)-1)]][0]
+                        random_enemy = get_obj_display('units').unit_list[enemy_country][enemy_list[0]][0]
                         random_enemy.health -= self.damage
 
                         shoot_sound.play('hit.wav')

@@ -67,17 +67,19 @@ class gui():
         self.units_text_name = []
 
         # world/units/ico/
-        self.units_info = [
+        '''self.units_info = [
             # [0 image ico, 1 function, 2 money, 3 timer tick, 4 timer count tick]
             ['human', 'get_obj_display(\'gui\').add_unit(0)', 10, 0.5, 100, 'infantry'],                    # human
-            ['human_with_mask', 'get_obj_display(\'gui\').add_unit(1)', 15, 0.5, 200, 'machine gunner'],    #  human with gas
+            ['human_with_mask', 'get_obj_display(\'gui\').add_unit(1)', 15, 0.5, 200, 'machine gunner'],    # human with gas
             ['none', 'get_obj_display(\'gui\').add_unit(2)', 15, 0.5, 200, 'sniper'],                       # sniper
             ['none', 'get_obj_display(\'gui\').add_unit(3)', 15, 0.5, 200, 'mortar man'],                   # mortar man
             ['tank', 'get_obj_display(\'gui\').add_unit(4)', 100, 0.5, 1000, 'tank'],                       # tank
             ['none', 'print(\'bomb\')', 100, 0.5, 1500, 'bomb'],                                            # bomb
             ['none', 'print(\'gas bomb\')', 120, 0.5, 2000, 'gas bomb']                                     # gas bomb
 
-        ]
+        ]'''
+
+        self.units_info = get_obj_display('units').units_info[get_obj_display('world').country]
 
         buttons_pos_y = settings.height/60
         buttons_pos_x = settings.width/4
@@ -115,7 +117,7 @@ class gui():
                     image_selected = 'buttons/small/button_active.png',
                     scale = buttons_scale,
                     text='',
-                    arg=self.units_info[i][1],
+                    arg='get_obj_display(\'gui\').add_unit(%d)' % i,#self.units_info[i]['id'],
                     text_color=BUTTONS_FONT_COLOR,
                     text_indent=settings.width/35,
                     text_scale=BUTTONS_FONT_SCALE,
@@ -125,7 +127,7 @@ class gui():
 
             self.units_buttons_ico.append(
                 image_label(
-                    'world/units/ico/%s.png' % (self.units_info[i][0]),
+                    'world/units/ico/%s.png' % (self.units_info[i]['ico']),
                     buttons_pos_x + buttons_distance * i, buttons_pos_y,
                     scale=buttons_scale
                 )
@@ -142,7 +144,7 @@ class gui():
             self.units_text_money.append(
                 text_label(
                     buttons_pos_x + buttons_distance * i + self.units_buttons[i].image_obj.sprite.width/2, buttons_pos_y + self.units_buttons[i].image_obj.sprite.height * 1.3,
-                    text=str(self.units_info[i][2]),
+                    text=str(self.units_info[i]['money']),
                     color=BUTTONS_FONT_COLOR,
                     size=int(buttons_scale * 10),
                     load_font=True,
@@ -155,7 +157,7 @@ class gui():
             self.units_text_name.append(
                 text_label(
                     buttons_pos_x + buttons_distance * i + self.units_buttons[i].image_obj.sprite.width/2, buttons_pos_y + self.units_buttons[i].image_obj.sprite.height * 1.6,
-                    text=str(self.units_info[i][5]),
+                    text=str(self.units_info[i]['name']),
                     color=BUTTONS_FONT_COLOR,
                     size=int(buttons_scale * 10),
                     load_font=True,
@@ -165,16 +167,22 @@ class gui():
                 )
             )
 
-            self.units_buttons_time.append([0, self.units_info[i][3], self.units_info[i][4]])
+            self.units_buttons_time.append(
+                [
+                    (0 if get_obj_display('world_save').dict['info']['units_loaded'] else self.units_info[i]['count_tick']),
+                    self.units_info[i]['tick'],
+                    self.units_info[i]['count_tick']
+                ]
+            )
 
 #-------------------------------------------------------------------------------
     def add_unit(self, type):
-        if self.units_buttons_time[type][0] <= 0 and get_obj_display('game_rule').money >= self.units_info[type][2]:
+        if self.units_buttons_time[type][0] <= 0 and get_obj_display('game_rule').money >= self.units_info[type]['money']:
             get_obj_display('units').add_unit(type)
             self.units_buttons_time[type][0] = self.units_buttons_time[type][2]
 
-            get_obj_display('game_rule').money -= self.units_info[type][2]
-            get_obj_display('game_info').info['money_spent'] += self.units_info[type][2]
+            get_obj_display('game_rule').money -= self.units_info[type]['money']
+            get_obj_display('game_info').info['money_spent'] += self.units_info[type]['money']
 
         else:
             sound.play('error.wav')

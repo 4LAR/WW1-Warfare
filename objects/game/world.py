@@ -3,6 +3,9 @@ class world():
     def __init__(self, menu=False):
         self.menu = menu
 
+        self.country = get_obj_display('world_save').dict['info']['country']
+        self.enemy = get_obj_display('world_save').dict['info']['enemy']
+
         self.move_x = 0
         self.move_tick = 10
 

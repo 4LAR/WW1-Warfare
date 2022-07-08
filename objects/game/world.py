@@ -8,6 +8,7 @@ class world():
 
         self.move_x = 0
         self.move_tick = 10
+        self.shift = False
 
         self.map_offs = [0, 0]
         self.disp_pos = [0, 0]
@@ -55,12 +56,12 @@ class world():
     # смещение карты влево
     def move_left(self):
         if (self.move_max > self.move_x + self.move_tick):
-            self.move_x += self.move_tick
+            self.move_x += self.move_tick if not self.shift else self.move_tick * 2
 
     # смещение карты направо
     def move_right(self):
         if (self.move_min < self.move_x - self.move_tick):
-            self.move_x -= self.move_tick
+            self.move_x -= self.move_tick if not self.shift else self.move_tick * 2
 
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ESCAPE:
@@ -88,6 +89,9 @@ class world():
             self.map_offs[1] = 0
 
         if not self.menu and not get_obj_display('game_rule').pause_settings:
+
+            self.shift = keyboard[key.LSHIFT]
+
             if keyboard[key.A] or ((self.disp_pos[0] < self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):
                 self.move_left()
             elif keyboard[key.D] or ((self.disp_pos[0] > settings.width - self.collide_mouse) and (self.collide_mouse_y[0] < self.disp_pos[1] < self.collide_mouse_y[1])):

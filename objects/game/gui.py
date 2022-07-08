@@ -175,7 +175,22 @@ class gui():
                 ]
             )
 
+        self.hotkeys = {
+            key._1: 0,
+            key._2: 1,
+            key._3: 2,
+            key._4: 3,
+            key._5: 4,
+            key._6: 5,
+            key._7: 6
+        }
+
 #-------------------------------------------------------------------------------
+    def on_key_press(self, symbol, modifiers):
+        if get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu and not get_obj_display('game_rule').pause_settings:
+            if symbol in self.hotkeys:
+                self.add_unit(self.hotkeys[symbol])
+
     def add_unit(self, type):
         if self.units_buttons_time[type][0] <= 0 and get_obj_display('game_rule').money >= self.units_info[type]['money']:
             get_obj_display('units').add_unit(type)

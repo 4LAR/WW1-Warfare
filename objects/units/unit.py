@@ -1,7 +1,6 @@
 
 class unit():
     def __init__(self, x, y, images, images_shadows, unit_dict, type=0, flip=0):
-
         # types
         # 0 human
         # 1 human with gas

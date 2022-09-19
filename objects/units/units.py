@@ -19,8 +19,25 @@ class units():
             self.units_info = read_dict(self.path.split('.')[0])
 
         # human
-        self.images.append([test_image])
-        self.images_shadows.append([test_image_shadow])
+        self.images.append({})
+        self.images_shadows.append({})
+
+        unit_types = [
+            ['run', 8]
+        ]
+
+        for type in range(len(unit_types)):
+            self.images[0][unit_types[type][0]] = [[], []]
+            self.images_shadows[0][unit_types[type][0]] = [[], []]
+            for flip in range(2):
+                for i in range(unit_types[type][1]):
+                    self.images[0][unit_types[type][0]][flip].append(Image.open('assets/img/world/units/human/%s/%d.png' % (unit_types[type][0], i + 1)))
+                    if flip == 0:
+                        self.images[0][unit_types[type][0]][flip][i] = self.images[0][unit_types[type][0]][flip][i].transpose(Image.FLIP_LEFT_RIGHT)
+
+                    #self.images_shadows[0][unit_types[type][0]][flip].append(PIL_to_pyglet(image_transform_for_shadow(self.images[0][unit_types[type][0]][flip][i], SHADOWS_COLOR, True), SCALE_WORLD/1.2))
+
+                    self.images[0][unit_types[type][0]][flip][i] = PIL_to_pyglet(self.images[0][unit_types[type][0]][flip][i], SCALE_WORLD/1.2)
 
         # human with gas
         self.images.append([test_image])
@@ -66,7 +83,7 @@ class units():
 
         if type == 0:
             #self.unit_list.append([human(0, 0), 0, y, False])
-            self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], self.units_info[country][type], 0, flip), y])
+            self.unit_list[flip].append([unit(0, y, self.images[0]['run'][flip], self.images_shadows[0]['run'][flip], self.units_info[country][type], 0, flip), y])
 
         elif type == 1:
             self.unit_list[flip].append([unit(0, y, self.images[0], self.images_shadows[0], self.units_info[country][type], 1, flip), y])

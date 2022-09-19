@@ -124,7 +124,7 @@ class gui():
                     text_size_y=1.3
                 )
             )
-
+            print(self.units_info[i]['ico'])
             self.units_buttons_ico.append(
                 image_label(
                     'world/units/ico/%s.png' % (self.units_info[i]['ico']),

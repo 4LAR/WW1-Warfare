@@ -131,17 +131,22 @@ class unit():
             elif self.health < self.state_health * (3 - self.state):
                 self.state += 1
 
+        else:
+            self.state += 0.15
+            if self.state >= 8:
+                self.state = 0
+
     def draw(self, x, y):
-        self.images[self.state].x = self.pos_x + x
-        self.images[self.state].y = y + self.pos_y
-        drawp(self.images[self.state])
+        self.images[int(self.state)].x = self.pos_x + x
+        self.images[int(self.state)].y = y + self.pos_y - (0 if (self.type == 4 )(self.images[int(self.state)].height / 6))
+        drawp(self.images[int(self.state)])
 
         if settings.game_options['game_unit_info'] and get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu:
-            self.unit_text.label.x = self.pos_x + x + self.images[self.state].width / 2
-            self.unit_text.label.y = y + self.pos_y + self.images[self.state].height + settings.height / 50
+            self.unit_text.label.x = self.pos_x + x + self.images[int(self.state)].width / 2
+            self.unit_text.label.y = y + self.pos_y + self.images[int(self.state)].height + settings.height / 50
             drawp(self.unit_text)
 
         if settings.game_options['game_shadows']:
-            self.images_shadows[self.state].x = self.pos_x + x
-            self.images_shadows[self.state].y = y - self.images_shadows[self.state].height + self.pos_y
-            drawp(self.images_shadows[self.state])
+            self.images_shadows[int(self.state)].x = self.pos_x + x
+            self.images_shadows[int(self.state)].y = y - self.images_shadows[int(self.state)].height + self.pos_y + (0 if (self.type == 4 )(self.images[int(self.state)].height / 6))
+            drawp(self.images_shadows[int(self.state)])

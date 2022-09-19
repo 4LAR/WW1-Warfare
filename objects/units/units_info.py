@@ -4,7 +4,7 @@ def load_units_info(self):
         "britain": [
             {
                 "name": "infantry",
-                "ico": "human",
+                "ico": "infantry",
                 "image": "",
                 "id": 0,
                 "money": 10,
@@ -104,7 +104,7 @@ def load_units_info(self):
         "germany": [
             {
                 "name": "infantry",
-                "ico": "human",
+                "ico": "infantry",
                 "image": "",
                 "id": 0,
                 "money": 10,
@@ -119,7 +119,7 @@ def load_units_info(self):
                 "priority": [1, 0, 3, 2, 4]
             },{
                 "name": "machine gunner",
-                "ico": "human_with_mask",
+                "ico": "machine_gunner",
                 "image": "",
                 "id": 1,
                 "money": 15,
@@ -134,7 +134,7 @@ def load_units_info(self):
                 "priority": [1, 0, 3, 2, 4]
             },{
                 "name": "sniper",
-                "ico": "none",
+                "ico": "sniper",
                 "image": "",
                 "id": 2,
                 "money": 15,
@@ -179,7 +179,7 @@ def load_units_info(self):
                 "priority": [4, 1, 0, 3, 2]
             },{
                 "name": "bomb",
-                "ico": "none",
+                "ico": "bomb_1",
                 "image": "",
                 "id": 5,
                 "money": 100,
@@ -189,7 +189,7 @@ def load_units_info(self):
                 "demage": 1000
             },{
                 "name": "gas bomb",
-                "ico": "none",
+                "ico": "bomb",
                 "image": "",
                 "id": 6,
                 "money": 150,
@@ -201,5 +201,5 @@ def load_units_info(self):
             }
         ]
     }
-    
+
     json.dump(self.units_info, open(self.path, 'w'), indent=4)

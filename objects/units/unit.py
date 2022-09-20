@@ -138,7 +138,7 @@ class unit():
 
     def draw(self, x, y):
         self.images[int(self.state)].x = self.pos_x + x
-        self.images[int(self.state)].y = y + self.pos_y - (0 if (self.type == 4 )(self.images[int(self.state)].height / 6))
+        self.images[int(self.state)].y = y + self.pos_y - (0 if (self.type == 4 ) else (self.images[int(self.state)].height / 6))
         drawp(self.images[int(self.state)])
 
         if settings.game_options['game_unit_info'] and get_obj_other('setings_game').draw_gui and not get_obj_display('world').menu:
@@ -148,5 +148,5 @@ class unit():
 
         if settings.game_options['game_shadows']:
             self.images_shadows[int(self.state)].x = self.pos_x + x
-            self.images_shadows[int(self.state)].y = y - self.images_shadows[int(self.state)].height + self.pos_y + (0 if (self.type == 4 )(self.images[int(self.state)].height / 6))
+            self.images_shadows[int(self.state)].y = y - self.images_shadows[int(self.state)].height + self.pos_y + (0 if (self.type == 4 ) else (self.images[int(self.state)].height / 6))
             drawp(self.images_shadows[int(self.state)])
